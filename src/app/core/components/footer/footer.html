@@ -1,1 +1,9 @@
-<p>footer works!</p>
+<footer class="footer-container">
+  <!-- He quitado el div que envolvía la imagen para simplificar el centrado -->
+  <img src="assets/logo.jpg" alt="Logo Balam" class="footer-logo">
+  <p class="footer-text">
+    Copyright 2025 | <a (click)="showTerms()">Términos y condiciones</a>
+  </p>
+</footer>
+
+<app-modal [isVisible]="isModalVisible()" (closeModal)="hideTerms()"></app-modal>

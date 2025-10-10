@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { ModalComponent } from './modal';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  standalone: true,
+  imports: [ModalComponent],
   templateUrl: './footer.html',
-  styleUrl: './footer.css'
+  styleUrls: ['./footer.css']
 })
-export class Footer {
+export class FooterComponent {
+  isModalVisible = signal(false);
 
+  showTerms() {
+    this.isModalVisible.set(true);
+  }
+ 
+  hideTerms() {
+    this.isModalVisible.set(false);
+  }
 }

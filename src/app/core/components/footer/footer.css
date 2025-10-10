@@ -1,0 +1,32 @@
+.footer-container {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+  width: 100%;
+  border-top: 1px solid #e7e7e7;
+  /* Añadimos flexbox para centrar todo fácilmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo {
+  height: 50px;
+  margin-bottom: 10px;
+  /* No es necesario display: block o margin: auto con flexbox en el padre */
+}
+
+.footer-text {
+  margin: 0;
+  color: #6c757d;
+}
+
+.footer-text a {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+}
