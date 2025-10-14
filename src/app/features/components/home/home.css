@@ -1,0 +1,143 @@
+.banner-container {
+  position: relative;
+  width: 100%;
+  height: 700px; /* Altura ajustable */
+  background-image: url('../../../../assets/brincos.png'); /* Ruta de la imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  color: white; /* Color de texto blanco para contraste */
+}
+
+/* Capa de degradado para mejorar la legibilidad del texto */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Degradado de azul semitransparente a transparente */
+  background: linear-gradient(to right, rgba(0, 21, 41, 0.8) 0%, rgba(0, 21, 41, 0) 70%);
+  z-index: 1;
+}
+
+/* Contenedor para toda la información, para centrarla y posicionarla */
+.banner-content-wrapper {
+  position: relative; /* Para que esté por encima del overlay */
+  z-index: 2;
+  padding-left: 5%; /* Espaciado desde el borde izquierdo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.banner-info {
+  /* Se mueve el padding al wrapper para alinear todo el contenido */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para legibilidad */
+}
+
+.banner-info h1 {
+  font-size: 4rem; /* Tamaño de fuente grande para el título */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.banner-info p {
+  font-size: 1.5rem; /* Tamaño de fuente para la información */
+  margin: 0.5rem 0;
+}
+
+/* Contenedor para los botones del banner */
+.banner-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea los elementos a la izquierda */
+  margin-top: 2rem; /* Espacio entre el texto y los botones */
+}
+
+/* Contenedor para los botones de íconos */
+.icon-buttons {
+  display: flex;
+  gap: 15px; /* Espacio entre los íconos */
+  margin-bottom: 20px; /* Espacio hacia el botón de comprar */
+}
+
+/* Estilo para los botones redondos de ícono */
+.icon-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Círculo perfecto */
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  border: 1px solid white;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Estilo para el botón principal de compra */
+.buy-tickets-btn {
+  background-color: #F27F1B; /* Tono naranja */
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buy-tickets-btn:hover {
+  background-color: #d87118; /* Naranja un poco más oscuro al pasar el mouse */
+}
+
+/* Sección para el filtro de eventos */
+.events-filter-section {
+  background-color: #F27F1B; /* Mismo naranja que el botón de compra */
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.events-filter-section h2 {
+  font-weight: bold;
+  font-size: 2.5rem;
+  margin: 0 0 25px 0;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 20px; /* Espacio entre botones */
+}
+
+.filter-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid white;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 20px; /* Bordes redondeados */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.filter-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
