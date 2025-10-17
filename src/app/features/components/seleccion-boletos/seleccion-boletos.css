@@ -1,8 +1,31 @@
+.regresar-btn {
+  background-color: #F27F1B; /* Tono naranja */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start; /* Para que no ocupe todo el ancho */
+  margin-bottom: 20px; /* Espacio hacia el contenido de abajo */
+}
+
+.regresar-btn:hover {
+  background-color: #d87118;
+}
+
 .seleccion-container {
   display: flex;
-  gap: 40px; /* Espacio entre columnas */
+  flex-direction: column;
   padding: 40px;
   background-color: #f4f4f4; /* Un fondo suave para la página */
+}
+
+.columnas-wrapper {
+  display: flex;
+  gap: 40px; /* Espacio entre columnas */
 }
 
 .columna-izquierda {
@@ -117,7 +140,7 @@
 @media (max-width: 992px) {
   .seleccion-container {
     flex-direction: column; /* Apila las columnas verticalmente */
-    padding: 20px;
+    padding: 20px;    
     gap: 30px;
   }
 

@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { TerminosCompraModal } from './terminos-compra-modal';
 import { InfoEvento } from './info-evento';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-seleccion-boletos',
   standalone: true,
-  imports: [InfoEvento, CurrencyPipe, TerminosCompraModal],
+  imports: [InfoEvento, CurrencyPipe, TerminosCompraModal, RouterModule],
   templateUrl: './seleccion-boletos.html',
   styleUrls: ['./seleccion-boletos.css']
 })

@@ -1,5 +1,62 @@
 .info-evento-container {
-  border: 1px dashed #ccc;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Para que la imagen respete los bordes redondeados */
+  text-align: left;
+}
+
+.evento-imagen {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.evento-detalles {
+  padding: 25px;
+}
+
+.evento-titulo {
+  color: #F27F1B; /* Tono naranja */
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+
+.evento-fecha,
+.evento-lugar {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.evento-lugar {
+  font-size: 1rem;
+  color: #777;
+}
+
+.evento-botones {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+/* Estilos de los botones de ícono (similares a los del home) */
+.icon-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  color: #555;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.icon-btn:hover {
+  background-color: #e0e0e0;
 }
