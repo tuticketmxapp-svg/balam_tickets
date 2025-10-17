@@ -1,0 +1,40 @@
+<div class="seleccion-container">
+  <button class="regresar-btn" routerLink="/">Regresar al inicio</button>
+  <div class="columnas-wrapper">
+    <!-- Columna Izquierda -->
+    <div class="columna-izquierda">
+      <app-info-evento></app-info-evento>
+    </div>
+  
+    <!-- Columna Derecha -->
+    <div class="columna-derecha">
+      <h2>Compra exitosa: <span class="numero-compra">17150</span></h2>
+      <p class="mensaje-exito">¡Tu compra ha sido realizada con éxito! Hemos enviado el recibo y los detalles de tu compra al correo electrónico <strong>johndoe@email.com</strong>. Podrás descargar tus entradas para ingresar al recinto el mismo día del evento en tu perfil.</p>
+
+      <!-- Resumen de la Compra -->
+      <div class="resumen-container">
+        <div class="resumen-titulo">
+          <h3>Resumen de la compra</h3>
+        </div>
+        <div class="resumen-cuerpo">
+          <ul>
+            @for(boleto of resumen.boletos; track $index) {
+              <li>
+                <span>{{ boleto.cantidad }}x {{ boleto.nombre }}</span>
+                <span>{{ boleto.total | currency:'MXN' }}</span>
+              </li>
+            }
+          </ul>
+          <ul class="resumen-totales">
+            <li><span>Subtotal</span> <span>{{ resumen.subtotal | currency:'MXN' }}</span></li>
+            <li><span>Comisión</span> <span>{{ resumen.comision | currency:'MXN' }}</span></li>
+            <li><span>Cargo Bancario</span> <span>{{ resumen.cargoBancario | currency:'MXN' }}</span></li>
+            <li class="total-general"><span>Total</span> <span>{{ totalGeneral | currency:'MXN' }}</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <button class="mis-compras-btn">Mis Compras</button>
+    </div>
+  </div>
+</div>

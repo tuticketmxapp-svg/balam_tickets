@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './features/components/home/home';
 import { SeleccionBoletos } from './features/components/seleccion-boletos/seleccion-boletos';
 import { PagoBoleto } from './features/components/pago-boleto/pago-boleto';
+import { ResumenCompra } from './features/components/resumen-compra/resumen-compra';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'pagoBoleto',
     component: PagoBoleto
+  },
+  {
+    path: 'resumenCompra',
+    component: ResumenCompra
   },
   {
     path: '**', // 4. Cualquier otra ruta no encontrada

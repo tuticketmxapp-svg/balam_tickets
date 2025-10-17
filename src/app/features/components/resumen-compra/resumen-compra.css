@@ -1,0 +1,196 @@
+/* Estilos base de layout (similares a seleccion-boletos y pago-boleto) */
+.regresar-btn {
+  background-color: #F27F1B;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+
+.regresar-btn:hover {
+  background-color: #d87118;
+}
+
+.seleccion-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: #f4f4f4;
+}
+
+.columnas-wrapper {
+  display: flex;
+  gap: 40px;
+}
+
+.columna-izquierda {
+  flex: 1;
+}
+
+.columna-derecha {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.columna-derecha h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.numero-compra {
+  color: #E44521;
+}
+
+.mensaje-exito {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* --- Media Queries para Diseño Responsivo --- */
+@media (max-width: 992px) {
+  .columnas-wrapper {
+    flex-direction: column;
+  }
+  .seleccion-container {
+    padding: 20px;
+  }
+}
+
+/* Contenedor del resumen de compra */
+.resumen-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.resumen-titulo {
+  background-color: #E44521;
+  color: white;
+  padding: 15px 25px;
+}
+
+.resumen-titulo h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.resumen-cuerpo {
+  background-color: #EE836A;
+  color: white;
+  padding: 25px;
+}
+
+.resumen-cuerpo ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resumen-cuerpo li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 1.1rem;
+}
+
+.resumen-totales {
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.total-general {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.total-general span {
+  font-size: 1.6rem;
+}
+
+/* Contenedor del resumen de compra */
+.resumen-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.resumen-titulo {
+  background-color: #E44521;
+  color: white;
+  padding: 15px 25px;
+}
+
+.resumen-titulo h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.resumen-cuerpo {
+  background-color: #EE836A;
+  color: white;
+  padding: 25px;
+}
+
+.resumen-cuerpo ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resumen-cuerpo li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 1.1rem;
+}
+
+.resumen-totales {
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.total-general {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.total-general span {
+  font-size: 1.6rem;
+}
+
+/* Estilo para el botón de "Mis Compras" */
+.mis-compras-btn {
+  background-color: #E44521;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.mis-compras-btn:hover {
+  background-color: #c93d1c; /* Un tono ligeramente más oscuro para el hover */
+}
