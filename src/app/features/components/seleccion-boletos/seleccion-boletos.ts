@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { TerminosCompraModal } from './terminos-compra-modal';
-import { InfoEvento } from './info-evento';
+import { InfoEvento } from '../../../shared/info-evento/info-evento';
 import { RouterModule } from '@angular/router';
 
 @Component({

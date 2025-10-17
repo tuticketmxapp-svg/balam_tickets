@@ -1,0 +1,168 @@
+<div class="seleccion-container">
+  <button class="regresar-btn" routerLink="/">Regresar</button>
+  <div class="columnas-wrapper">
+    <!-- Columna Izquierda -->
+    <div class="columna-izquierda">
+      <app-info-evento></app-info-evento>
+    </div>
+  
+    <!-- Columna Derecha -->
+    <div class="columna-derecha">
+      <h2><strong>Seleccione tarjeta</strong></h2>
+
+      <!-- Contenedor para los métodos de pago -->
+      <div class="metodos-pago">
+        <div class="radio-imagen-wrapper">
+          <input type="radio" id="pago-tarjetas" name="metodo-pago" value="tarjetas" checked>
+          <label for="pago-tarjetas">
+            <img src="assets/tarjetas.png" alt="Tarjetas de crédito/débito">
+          </label>
+        </div>
+        <div class="radio-imagen-wrapper">
+          <input type="radio" id="pago-bbva" name="metodo-pago" value="bbva">
+          <label for="pago-bbva">
+            <img src="assets/bbva.png" alt="BBVA">
+          </label>
+        </div>
+        <div class="radio-imagen-wrapper">
+          <input type="radio" id="pago-oxxo" name="metodo-pago" value="oxxo">
+          <label for="pago-oxxo">
+            <img src="assets/oxxo.png" alt="Oxxo Pay">
+          </label>
+        </div>
+        <div class="radio-imagen-wrapper">
+          <input type="radio" id="pago-mifel" name="metodo-pago" value="mifel">
+          <label for="pago-mifel">
+            <img src="assets/mifel.png" alt="Mifel Pay">
+          </label>
+        </div>
+      </div>
+
+      <!-- Texto informativo -->
+      <p class="info-3d-secure">Para completar la compra, es necesario tener activado 3D Secure en tu tarjeta. Te recomendamos utilizar tu tarjeta digital para una experiencia de compra más segura y conveniente.</p>
+
+      <!-- Formulario de Datos de Tarjeta -->
+      <div class="form-tarjeta-container">
+        <h3>Datos de tarjeta</h3>
+        <form class="form-tarjeta" [formGroup]="pagoForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombreTitular">Nombre del titular</label>
+              <input type="text" id="nombreTitular" formControlName="nombreTitular">
+              @if (submitted && f['nombreTitular'].errors) {
+                <div class="error-msg">El nombre es obligatorio.</div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" formControlName="telefono">
+              @if (submitted && f['telefono'].errors) {
+                <div class="error-msg">El teléfono es obligatorio.</div>
+              }
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" formControlName="email">
+              @if (submitted && f['email'].errors) {
+                <div class="error-msg">
+                  @if (f['email'].errors['required']) { <div>El email es obligatorio.</div> }
+                  @if (f['email'].errors['email']) { <div>El formato del email no es válido.</div> }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="confirmar-email">Confirmar email</label>
+              <input type="email" id="confirmar-email" formControlName="confirmarEmail">
+              @if (submitted && f['confirmarEmail'].errors) {
+                <div class="error-msg">La confirmación del email es obligatoria.</div>
+              }
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="numeroTarjeta">Número de tarjeta</label>
+            <input type="text" id="numeroTarjeta" formControlName="numeroTarjeta">
+            @if (submitted && f['numeroTarjeta'].errors) {
+              <div class="error-msg">El número de tarjeta es obligatorio.</div>
+            }
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mesExp">Mes (MM)</label>
+              <input type="text" id="mesExp" placeholder="MM" formControlName="mesExp">
+              @if (submitted && f['mesExp'].errors) {
+                <div class="error-msg">Obligatorio.</div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="anoExp">Año (AA)</label>
+              <input type="text" id="anoExp" placeholder="AA" formControlName="anoExp">
+              @if (submitted && f['anoExp'].errors) {
+                <div class="error-msg">Obligatorio.</div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV / CVC</label>
+              <input type="text" id="cvv" formControlName="cvv">
+              @if (submitted && f['cvv'].errors) {
+                <div class="error-msg">Obligatorio.</div>
+              }
+            </div>
+          </div>
+          <!-- Campos de dirección corregidos y completos -->
+          <div class="form-row">
+            <div class="form-group" style="flex: 3;"> <!-- Más espacio para la calle -->
+              <label for="calle">Calle</label>
+              <input type="text" id="calle" formControlName="calle">
+              @if (submitted && f['calle'].errors) {
+                <div class="error-msg">La calle es obligatoria.</div>
+              }
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label for="numero">Número</label>
+              <input type="text" id="numero" formControlName="numero">
+              @if (submitted && f['numero'].errors) {
+                <div class="error-msg">Obligatorio.</div>
+              }
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="codigoPostal">Código postal</label>
+              <input type="text" id="codigoPostal" formControlName="codigoPostal">
+              @if (submitted && f['codigoPostal'].errors) {
+                <div class="error-msg">El C.P. es obligatorio.</div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="ciudad">Ciudad</label>
+              <input type="text" id="ciudad" formControlName="ciudad">
+              @if (submitted && f['ciudad'].errors) {
+                <div class="error-msg">La ciudad es obligatoria.</div>
+              }
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <input type="text" id="estado" formControlName="estado">
+              @if (submitted && f['estado'].errors) {
+                <div class="error-msg">El estado es obligatorio.</div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="pais">País</label>
+              <input type="text" id="pais" formControlName="pais">
+              @if (submitted && f['pais'].errors) {
+                <div class="error-msg">El país es obligatorio.</div>
+              }
+            </div>
+          </div>
+          <button type="submit" class="pagar-btn-form">Pagar</button>
+          <p>Tus pagos se realizaran de forma segura con encriptación de 26 bits</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

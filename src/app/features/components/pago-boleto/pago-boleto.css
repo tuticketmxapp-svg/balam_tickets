@@ -1,0 +1,195 @@
+/* Estilos copiados de seleccion-boletos.css para mantener la consistencia */
+
+.regresar-btn {
+  background-color: #F27F1B; /* Tono naranja */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start; /* Para que no ocupe todo el ancho */
+  margin-bottom: 20px; /* Espacio hacia el contenido de abajo */
+}
+
+.regresar-btn:hover {
+  background-color: #d87118;
+}
+
+.seleccion-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: #f4f4f4; /* Un fondo suave para la página */
+}
+
+.columnas-wrapper {
+  display: flex;
+  gap: 40px; /* Espacio entre columnas */
+}
+
+.columna-izquierda {
+  flex: 1; /* Ocupa 1/3 del espacio */
+}
+
+.columna-derecha {
+  flex: 2; /* Ocupa 2/3 del espacio */
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Espacio entre título y contenido */
+}
+
+.columna-derecha h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* --- Media Queries para Diseño Responsivo --- */
+@media (max-width: 992px) {
+  .columnas-wrapper {
+    flex-direction: column; /* Apila las columnas verticalmente */
+  }
+
+  .seleccion-container {
+    padding: 20px;
+  }
+
+  .columna-derecha h2 {
+    font-size: 1.8rem; /* Reduce el tamaño del título */
+  }
+}
+
+/* Contenedor para los radio buttons con imagen */
+.metodos-pago {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.radio-imagen-wrapper input[type="radio"] {
+  display: none; /* Ocultamos el radio button real */
+}
+
+.radio-imagen-wrapper label {
+  display: block;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.radio-imagen-wrapper label img {
+  height: 40px; /* Ajusta la altura de las imágenes */
+  width: auto;
+  display: block;
+}
+
+.radio-imagen-wrapper input[type="radio"]:checked + label {
+  border-color: #F27F1B; /* Borde naranja al seleccionar */
+  background-color: #fff8f0;
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.info-3d-secure {
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #eef6ff;
+  border-left: 4px solid #007bff;
+  padding: 15px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Contenedor del formulario de tarjeta */
+.form-tarjeta-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.form-tarjeta-container h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #F27F1B;
+  box-shadow: 0 0 0 2px rgba(242, 127, 27, 0.2);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Estilo para el botón de pagar dentro del formulario */
+.pagar-btn-form {
+  background-color: #E44521;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.pagar-btn-form:hover {
+  background-color: #b13115;
+}
+
+/* Estilo para los mensajes de error */
+.error-msg {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: -4px;
+}

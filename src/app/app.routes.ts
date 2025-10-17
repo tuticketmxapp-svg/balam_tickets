@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './features/components/home/home';
 import { SeleccionBoletos } from './features/components/seleccion-boletos/seleccion-boletos';
+import { PagoBoleto } from './features/components/pago-boleto/pago-boleto';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,10 @@ export const routes: Routes = [
   {
     path: 'seleccionBoletos',
     component: SeleccionBoletos
+  },
+  {
+    path: 'pagoBoleto',
+    component: PagoBoleto
   },
   {
     path: '**', // 4. Cualquier otra ruta no encontrada
