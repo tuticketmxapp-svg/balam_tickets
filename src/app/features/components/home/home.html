@@ -12,10 +12,10 @@
     <div class="banner-buttons">
       <div class="icon-buttons">
         <!-- Puedes reemplazar los caracteres con tus propios íconos (ej. <i class="fa fa-share"></i>) -->
-        <button class="icon-btn">↗</button>
-        <button class="icon-btn">♥</button>
+        <button class="icon-btn"><fa-icon [icon]="faShareAlt" /></button>
+        <button class="icon-btn"><fa-icon [icon]="faHeart" /></button>
       </div>
-      <button class="buy-tickets-btn">
+      <button class="buy-tickets-btn" routerLink="/seleccionBoletos">
         Comprar Boletos
       </button>
     </div>

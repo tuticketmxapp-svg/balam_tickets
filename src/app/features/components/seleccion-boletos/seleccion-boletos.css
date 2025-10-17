@@ -1,0 +1,280 @@
+.seleccion-container {
+  display: flex;
+  gap: 40px; /* Espacio entre columnas */
+  padding: 40px;
+  background-color: #f4f4f4; /* Un fondo suave para la página */
+}
+
+.columna-izquierda {
+  flex: 1; /* Ocupa 1/3 del espacio */
+}
+
+.columna-derecha {
+  flex: 2; /* Ocupa 2/3 del espacio */
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Espacio entre título y cards */
+}
+
+.columna-derecha h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card-boletos {
+  background-color: #EE836A;
+  display: flex;
+  flex-direction: column; /* Para que la descripción se ponga abajo */
+  padding: 25px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.info-precio {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-boletos:hover {
+  transform: translateY(-5px);
+}
+
+.card-boletos h3, .card-boletos p {
+  margin: 0;
+}
+
+.precio {
+  font-size: 2.5rem; /* Precio grande */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cargos {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.contador {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contador-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.contador-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cantidad {
+  font-size: 1.8rem;
+  font-weight: bold;
+  min-width: 30px; /* Para que no se mueva el layout */
+  text-align: center;
+}
+
+/* Estilos para la descripción del boleto */
+.card-descripcion {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.card-descripcion ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.card-descripcion li {
+  margin-bottom: 8px;
+}
+
+/* --- Media Queries para Diseño Responsivo --- */
+
+/* Para tablets y dispositivos más pequeños */
+@media (max-width: 992px) {
+  .seleccion-container {
+    flex-direction: column; /* Apila las columnas verticalmente */
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .columna-izquierda,
+  .columna-derecha {
+    flex: none; /* Resetea el flex para que ocupen el ancho completo */
+    width: 100%;
+  }
+
+  .columna-derecha h2 {
+    font-size: 1.8rem; /* Reduce el tamaño del título */
+  }
+
+  .precio {
+    font-size: 2.2rem;
+  }
+}
+
+/* Para móviles pequeños */
+@media (max-width: 576px) {
+  .card-content {
+    flex-direction: column; /* Apila el precio y el contador */
+    align-items: flex-start; /* Alinea todo a la izquierda */
+    gap: 20px;
+  }
+
+  .card-descripcion {
+    font-size: 0.9rem;
+  }
+}
+
+/* Contenedor para el botón de pago y la info adicional */
+.pago-info-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Botón para pagar boletos */
+.pagar-btn {
+  background-color: #E6A74C;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+  width: 100%;
+}
+
+.pagar-btn:disabled {
+  background-color: #cccccc;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pagar-btn:not(:disabled):hover {
+  background-color: #d19643;
+}
+
+/* Estilos para la información adicional del evento */
+.info-adicional {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.info-adicional h3, .info-adicional h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.info-adicional ul {
+  padding-left: 20px;
+  margin: 15px 0;
+}
+
+.hashtags, .reembolso-info {
+  margin-top: 20px;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+/* Contenedor para el botón de pago y la info adicional */
+.pago-info-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Botón para pagar boletos */
+.pagar-btn {
+  background-color: #E6A74C;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+  width: 100%;
+}
+
+.pagar-btn:disabled {
+  background-color: #6b6666;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pagar-btn:not(:disabled):hover {
+  background-color: #d19643;
+}
+
+/* Estilos para la información adicional del evento */
+.info-adicional {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.info-adicional h3, .info-adicional h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.info-adicional ul {
+  padding-left: 20px;
+  margin: 15px 0;
+}
+
+.hashtags, .reembolso-info {
+  margin-top: 20px;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.terminos-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
