@@ -1,14 +1,30 @@
-.banner-container {
+.carousel-container {
   position: relative;
   width: 100%;
   height: 700px; /* Altura ajustable */
-  background-image: url('../../../../assets/brincos.png'); /* Ruta de la imagen de fondo */
+  color: white; /* Color de texto blanco para contraste */
+  overflow: hidden; /* Oculta las diapositivas que no están activas */
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
   display: flex;
-  align-items: center; /* Centra verticalmente el contenido */
-  justify-content: flex-start; /* Alinea el contenido a la izquierda */
-  color: white; /* Color de texto blanco para contraste */
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 2;
 }
 
 /* Capa de degradado para mejorar la legibilidad del texto */
@@ -19,14 +35,14 @@
   width: 100%;
   height: 100%;
   /* Degradado de azul semitransparente a transparente */
-  background: linear-gradient(to right, rgba(0, 21, 41, 0.8) 0%, rgba(0, 21, 41, 0) 70%);
-  z-index: 1;
+  background: linear-gradient(to right, rgba(0, 21, 41, 0.9) 0%, rgba(0, 21, 41, 0.1) 70%);
+  z-index: 3; /* Por encima de la imagen pero debajo del contenido */
 }
 
 /* Contenedor para toda la información, para centrarla y posicionarla */
 .banner-content-wrapper {
   position: relative; /* Para que esté por encima del overlay */
-  z-index: 2;
+  z-index: 4;
   padding-left: 5%; /* Espaciado desde el borde izquierdo */
   display: flex;
   flex-direction: column;
@@ -102,6 +118,84 @@
   background-color: #d87118; /* Naranja un poco más oscuro al pasar el mouse */
 }
 
+/* Estilos para los controles del carrusel */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 5;
+  transition: background-color 0.3s;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-control.prev {
+  left: 15px;
+  border-radius: 0 3px 3px 0;
+}
+
+.carousel-control.next {
+  right: 15px;
+  border-radius: 3px 0 0 3px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
+/* Estilos para los controles del carrusel */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 5;
+  transition: background-color 0.3s;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-control.prev {
+  left: 15px;
+  border-radius: 0 3px 3px 0;
+}
+
+.carousel-control.next {
+  right: 15px;
+  border-radius: 3px 0 0 3px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
 /* Sección para el filtro de eventos */
 .events-filter-section {
   background-color: #F27F1B; /* Mismo naranja que el botón de compra */
@@ -140,4 +234,17 @@
 
 .filter-btn:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator-dot.active, .indicator-dot:hover {
+  background-color: white;
 }
