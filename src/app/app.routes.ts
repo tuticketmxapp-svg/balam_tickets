@@ -3,6 +3,7 @@ import { Home } from './features/components/home/home';
 import { SeleccionBoletos } from './features/components/seleccion-boletos/seleccion-boletos';
 import { PagoBoleto } from './features/components/pago-boleto/pago-boleto';
 import { ResumenCompra } from './features/components/resumen-compra/resumen-compra';
+import { Login } from './features/login/login';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'resumenCompra',
     component: ResumenCompra
+  },
+  {
+    path: 'login',
+    component: Login
   },
   {
     path: '**', // 4. Cualquier otra ruta no encontrada
