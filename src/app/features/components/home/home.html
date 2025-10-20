@@ -20,7 +20,7 @@
             <button class="icon-btn"><fa-icon [icon]="faShareAlt" /></button>
             <button class="icon-btn"><fa-icon [icon]="faHeart" /></button>
           </div>
-          <button class="buy-tickets-btn" routerLink="/seleccionBoletos">
+          <button class="buy-tickets-btn" [routerLink]="['/seleccionBoletos', slide.url_event]">
             Comprar Boletos
           </button>
         </div>

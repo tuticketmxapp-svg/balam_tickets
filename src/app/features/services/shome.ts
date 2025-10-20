@@ -15,4 +15,8 @@ export class SHome {
   getEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.apiUrl}events/active?channel=online`);
   }
+
+  getEventoById(id: string) {
+    return this.http.get<Evento>(`${this.apiUrl}eventos/${id}`);
+  }
 }

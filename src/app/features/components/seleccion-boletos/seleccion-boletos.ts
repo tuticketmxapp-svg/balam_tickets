@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { TerminosCompraModal } from './terminos-compra-modal';
 import { InfoEvento } from '../../../shared/info-evento/info-evento';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { SHome } from '../../services/shome';
+import { Evento } from '../../models/Ievento';
 
 @Component({
   selector: 'app-seleccion-boletos',
   standalone: true,
   imports: [InfoEvento, CurrencyPipe, TerminosCompraModal, RouterModule],
   templateUrl: './seleccion-boletos.html',
-  styleUrls: ['./seleccion-boletos.css']
+  styleUrls: ['./seleccion-boletos.css'],
 })
-export class SeleccionBoletos {
+export class SeleccionBoletos implements OnInit {
+  evento: Evento | null = null;
   // Definimos los tipos de boletos con su información y contador
   boletos = [
     {
@@ -38,6 +41,22 @@ export class SeleccionBoletos {
     }
   ];
   isTerminosModalVisible = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private sHome: SHome
+  ) {}
+
+  ngOnInit(): void {
+    const urlEvent = this.route.snapshot.paramMap.get('url_event');
+    if (urlEvent) {
+      this.sHome.getEventoById(urlEvent).subscribe(data => {
+        this.evento = data;
+        console.log('Evento cargado:', this.evento);
+        // Aquí puedes mapear los `zonePrices` del evento a tu array `boletos`
+      });
+    }
+  }
 
   // Funciones para el contador
   incrementar(boleto: any) {

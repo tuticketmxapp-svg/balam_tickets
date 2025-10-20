@@ -11,6 +11,7 @@ interface Slide {
   fecha: string;
   lugar: string;
   imagen: string;
+  url_event: string;
 }
 
 @Component({
@@ -38,13 +39,14 @@ export class Home implements OnInit, OnDestroy {
     this.eventosSubscription = this.sHome.getEventos().subscribe({
       next: (eventos) => {
         this.slides = eventos.map(this.transformarEventoASlide);
-        
+        console.log('Eventos cargados para el carrusel:', this.slides);
         if (this.slides.length === 0) {
           this.slides.push({
             titulo: 'Próximamente',
             fecha: 'Nuevos eventos muy pronto',
             lugar: 'Mantente al pendiente',
-            imagen: 'assets/brincos.png'
+            imagen: 'assets/brincos.png',
+            url_event: ''
           });
         }
         this.cargando = false;
@@ -57,7 +59,8 @@ export class Home implements OnInit, OnDestroy {
           titulo: 'Error',
           fecha: 'No se pudieron cargar los eventos',
           lugar: 'Intenta de nuevo más tarde',
-          imagen: 'assets/brincos.png'
+          imagen: 'assets/brincos.png',
+          url_event: ''
         }];
       }
     });
@@ -74,7 +77,6 @@ export class Home implements OnInit, OnDestroy {
   }
 
   private transformarEventoASlide(evento: Evento): Slide {
-    console.log('Transformando evento:', evento);
     const fechaEvento = new Date(`${evento.event_date}T${evento.event_time}`);
 
     const fechaFormateada = fechaEvento.toLocaleDateString('es-MX', {
@@ -93,7 +95,8 @@ export class Home implements OnInit, OnDestroy {
       titulo: evento.name,
       fecha: `${fechaFormateada} | ${horaFormateada}`,
       lugar: evento.enclosure_name,
-      imagen: evento.image_event_online
+      imagen: evento.image_event_online,
+      url_event: evento.url_event
     };
   }
 

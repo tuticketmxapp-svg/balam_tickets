@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: Home // 3. Muestra el HomeComponent
   },
   {
-    path: 'seleccionBoletos',
+    path: 'seleccionBoletos/:url_event',
     component: SeleccionBoletos
   },
   {
