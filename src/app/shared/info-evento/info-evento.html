@@ -1,9 +1,9 @@
 <div class="info-evento-container">
-  <img src="assets/brincos.png" alt="Evento Brincos Dieras" class="evento-imagen">
+  <img [src]="evento?.image_event_online" [alt]="evento?.name" class="evento-imagen">
   <div class="evento-detalles">
-    <h2 class="evento-titulo">BRINCOS DIERAS</h2>
-    <p class="evento-fecha">29 NOV 2025 | 9:00 pm</p>
-    <p class="evento-lugar">Coliseo la Concordia. Colón Ote. 2025, Centro, 94345 Orizaba, Ver.</p>
+    <h2 class="evento-titulo">{{evento?.name}}</h2>
+    <p class="evento-fecha">{{ fechaFormateada }}</p>
+    <p class="evento-lugar">{{evento?.enclosure_address}}</p>
     
     <div class="evento-botones">
       <button class="icon-btn"><fa-icon [icon]="faShareAlt" /></button>

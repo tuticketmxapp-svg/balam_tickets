@@ -3,74 +3,74 @@
   <div class="columnas-wrapper">
     <!-- Columna Izquierda -->
     <div class="columna-izquierda">
-      <app-info-evento></app-info-evento>
+      <app-info-evento [evento]="evento"></app-info-evento>
     </div>
-  
+
     <!-- Columna Derecha -->
     <div class="columna-derecha">
       <h2><strong>Seleccionar boletos</strong></h2>
-  
+
       <!-- Usamos @for para iterar sobre los boletos definidos en el componente -->
-      @for (boleto of boletos; track $index) {
-        <div class="card-boletos">
-          <div class="card-content">
-            <div class="info-precio">
-              <h3>{{ boleto.titulo }}</h3>
-              <p>{{ boleto.subtitulo }}</p>
-              <span class="precio">{{ boleto.precio | currency:'MXN':'symbol-narrow':'1.2-2' }}</span>
-              <span class="cargos">+ cargos</span>
-            </div>
-            <div class="contador">
-              <button class="contador-btn" (click)="decrementar(boleto)" [disabled]="boleto.cantidad === 0">-</button>
-              <span class="cantidad">{{ boleto.cantidad }}</span>
-              <button class="contador-btn" (click)="incrementar(boleto)" [disabled]="boleto.cantidad === 10">+</button>
-            </div>
+      @for (boleto of evento?.zone_prices; track $index) {
+      <div class="card-boletos">
+        <div class="card-content">
+          <div class="info-precio">
+            <h3>{{ boleto.section }}</h3>
+            <!-- <p>{{ boleto.subtitulo }}</p> -->
+            <span class="precio">{{
+              boleto.price | currency : 'MXN' : 'symbol-narrow' : '1.2-2'
+            }}</span>
+            <span class="cargos">+ cargos</span>
           </div>
-          <!-- Sección de descripción del boleto -->
-          <div class="card-descripcion">
-            <p>{{ boleto.descripcion }}</p>
-            
-            <!-- Mostramos la lista de beneficios solo si existen -->
-            @if (boleto.beneficios.length > 0) {
-              <p>Tu boleto incluye:</p>
-              <ul>
-                @for (beneficio of boleto.beneficios; track $index) {
-                  <li><strong>{{ beneficio.titulo }}:</strong> {{ beneficio.texto }}</li>
-                }
-              </ul>
-            }
+          <div class="contador">
+            <button
+              class="contador-btn"
+              (click)="decrementar(boleto)"
+              [disabled]="boleto.current_stock === 0"
+            >
+              -
+            </button>
+            <span class="cantidad">{{ boleto.current_stock }}</span>
+            <button
+              class="contador-btn"
+              (click)="incrementar(boleto)"
+              [disabled]="boleto.current_stock === 10"
+            >
+              +
+            </button>
           </div>
         </div>
+        <!-- Sección de descripción del boleto -->
+        <div class="card-descripcion">
+          <p>{{ boleto.description }}</p>
+
+          <!-- Mostramos la lista de beneficios solo si existen -->
+          @if (boleto && boleto.types && boleto.types.length > 0) {
+          <p>Tu boleto incluye:</p>
+          <ul>
+            @for (beneficio of boleto.types; track $index) {
+            <li>
+              <strong>{{ beneficio }}:</strong>
+            </li>
+            }
+          </ul>
+          }
+        </div>
+      </div>
       }
-  
+
       <!-- Botón de pago y sección de información adicional -->
       <div class="pago-info-container">
-        <button class="pagar-btn" routerLink="/pagoBoleto" [disabled]="totalBoletosSeleccionados === 0">
+        <button
+          class="pagar-btn"
+          routerLink="/pagoBoleto"
+          [disabled]="totalBoletosSeleccionados === 0"
+        >
           Pagar boletos
         </button>
-  
+
         <div class="info-adicional">
-          <h3>Galería Cubana Sea+Art abre sus puertas !</h3>
-          <p>Sumérgete en una noche donde el arte, la música y la diversidad cultural se encuentran. Entre muros que cuentan historias y sonidos que cruzan fronteras, te invitamos a vivir una experiencia única:</p>
-          <ul>
-            <li>Afro Latin Funk Jazz en vivo.</li>
-            <li>DJ sets eclécticos con ritmos que van del house al groove global.</li>
-            <li>Una galería llena de inspiración visual y talento emergente.</li>
-          </ul>
-          <h4>Invitados:</h4>
-          <p>Afrodelica - Afr / Arg / Mx, Deeparchie - Yucatán, Dub Trebor - Cdmx, Enserio - España, Sixx - Yucatán, Sketch and Skills - Rusia, Vj Alux -Yucatán</p>
-          <h4>Suport:</h4>
-          <p>Fresco + Hot Wax + Sea+Art + Cine Con + Beatamin</p>
-          <p class="hashtags">#Pintura #Música #Artesvisuales #Mixología #tragosfrescos</p>
-          
-          <div class="reembolso-info">
-            <p><strong>Podrás solicitar un reembolso si:</strong></p>
-            <p>El evento es re-agendado o cancelado</p>
-            <p class="disclaimer">
-              Wave Boletera actúa solo como intermediario para la venta de boletos digitales, cualquier responsabilidad de producción, organización o legal recae sobre el Promotor. Esto incluye el contenido de esta página. Al utilizar Wave Boletera aceptas sus 
-              <a (click)="openTerminosModal()" class="terminos-link">términos y condiciones</a>.
-            </p>
-          </div>
+          <p>{{ evento?.long_description }}</p>
         </div>
       </div>
     </div>
@@ -78,7 +78,5 @@
 </div>
 
 <!-- Modal de Términos y Condiciones -->
-<app-terminos-compra-modal 
-  [isVisible]="isTerminosModalVisible" 
-  (closeModal)="closeTerminosModal()">
+<app-terminos-compra-modal [isVisible]="isTerminosModalVisible" (closeModal)="closeTerminosModal()">
 </app-terminos-compra-modal>
