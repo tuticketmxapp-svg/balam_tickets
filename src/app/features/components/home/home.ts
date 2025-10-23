@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faShareAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +31,7 @@ export class Home implements OnInit, OnDestroy {
 
   private intervalId?: ReturnType<typeof setInterval>;
   private eventosSubscription?: Subscription;
+  private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
 
   constructor(private sHome: SHome) {}
 
@@ -50,6 +51,7 @@ export class Home implements OnInit, OnDestroy {
           });
         }
         this.cargando = false;
+        this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
       },
       error: (error) => {
         console.error('Error al obtener los eventos:', error);
@@ -62,6 +64,7 @@ export class Home implements OnInit, OnDestroy {
           imagen: 'assets/brincos.png',
           url_event: ''
         }];
+        this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
       }
     });
   }

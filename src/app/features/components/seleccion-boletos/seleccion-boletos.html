@@ -63,8 +63,8 @@
       <div class="pago-info-container">
         <button
           class="pagar-btn"
-          routerLink="/pagoBoleto"
           [disabled]="totalBoletosSeleccionados === 0"
+          [routerLink]="['/pagoBoleto', evento?.url_event]"
         >
           Pagar boletos
         </button>

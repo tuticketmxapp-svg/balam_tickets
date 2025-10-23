@@ -15,7 +15,7 @@ export const routes: Routes = [
     component: SeleccionBoletos
   },
   {
-    path: 'pagoBoleto',
+    path: 'pagoBoleto/:url_event',
     component: PagoBoleto
   },
   {

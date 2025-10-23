@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { TerminosCompraModal } from './terminos-compra-modal';
 import { InfoEvento } from '../../../shared/info-evento/info-evento';
@@ -17,6 +17,7 @@ import { EventoDetalle } from '../../models/evento-detalle.model';
 export class SeleccionBoletos implements OnInit {
   evento: EventoDetalle | null = null;
   isTerminosModalVisible = false;
+  private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +33,7 @@ export class SeleccionBoletos implements OnInit {
           this.evento = data;
           // Inicializamos la cantidad de boletos para cada zona
           this.evento.zone_prices.forEach((zona) => (zona.cantidad = 0));
+          this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
           console.log('Evento cargado:', this.evento);
         },
         error: (err) => {

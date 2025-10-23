@@ -1,23 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InfoEvento } from '../../../shared/info-evento/info-evento';
-import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { SHome } from '../../services/shome';
+import { EventoDetalle } from '../../models/evento-detalle.model';
 
 @Component({
   selector: 'app-pago-boleto',
   standalone: true,
-  imports: [InfoEvento, RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [InfoEvento, RouterModule, ReactiveFormsModule],
   templateUrl: './pago-boleto.html',
-  styleUrls: ['./pago-boleto.css']
+  styleUrls: ['./pago-boleto.css'],
 })
 export class PagoBoleto implements OnInit {
-  pagoForm!: FormGroup;
+  pagoForm: FormGroup;
   submitted = false;
+  evento: EventoDetalle | null = null; // Propiedad para almacenar los datos del evento
+  private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private sHome: SHome,
+    private router: Router
+  ) {
     this.pagoForm = this.fb.group({
       nombreTitular: ['', Validators.required],
       telefono: ['', Validators.required],
@@ -30,23 +36,47 @@ export class PagoBoleto implements OnInit {
       calle: ['', Validators.required],
       numero: ['', Validators.required],
       codigoPostal: ['', Validators.required],
-      pais: ['', Validators.required],
-      estado: ['', Validators.required],
       ciudad: ['', Validators.required],
-    });
+      estado: ['', Validators.required],
+      pais: ['', Validators.required],
+    }, { validators: this.emailCoincide });
   }
 
-  // Getter para un acceso más fácil a los controles del formulario en el template
+  // Getter para fácil acceso a los campos del formulario en la plantilla
   get f() { return this.pagoForm.controls; }
 
+  emailCoincide(control: AbstractControl): ValidationErrors | null {
+    const email = control.get('email')?.value;
+    const confirmarEmail = control.get('confirmarEmail')?.value;
+    return email === confirmarEmail ? null : { emailNoCoincide: true };
+  }
+
+  ngOnInit(): void {
+    const urlEvent = this.route.snapshot.paramMap.get('url_event');
+    if (urlEvent) {
+      this.sHome.getEventoById(urlEvent).subscribe({
+        next: (data) => {
+          this.evento = data;
+          this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
+          console.log('Evento cargado en página de pago:', this.evento);
+        },
+        error: (err) => {
+          console.error('Error al cargar el evento en la página de pago', err);
+          this.router.navigate(['/']); // Redirigir a home si hay un error
+        },
+      });
+    }
+  }
+
+  // ... resto de tu lógica para el formulario
   onSubmit() {
     this.submitted = true;
 
     if (this.pagoForm.invalid) {
-      return; // Detiene el proceso si el formulario es inválido
+      console.log('Formulario inválido');
+      return;
     }
 
-    // Aquí iría la lógica para procesar el pago
     console.log('Formulario válido, procesando pago...', this.pagoForm.value);
   }
 }

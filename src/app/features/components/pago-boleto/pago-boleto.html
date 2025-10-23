@@ -3,15 +3,16 @@
   <div class="columnas-wrapper">
     <!-- Columna Izquierda -->
     <div class="columna-izquierda">
-      <app-info-evento></app-info-evento>
+      <app-info-evento [evento]="evento"></app-info-evento>
     </div>
   
     <!-- Columna Derecha -->
     <div class="columna-derecha">
-      <h2><strong>Seleccione tarjeta</strong></h2>
+      <h2><strong>Evento Gratuito</strong></h2>
+      <p>Solo necesitas registrarte para obtener tu entrada</p>
 
       <!-- Contenedor para los métodos de pago -->
-      <div class="metodos-pago">
+      <!-- <div class="metodos-pago">
         <div class="radio-imagen-wrapper">
           <input type="radio" id="pago-tarjetas" name="metodo-pago" value="tarjetas" checked>
           <label for="pago-tarjetas">
@@ -36,14 +37,14 @@
             <img src="assets/mifel.png" alt="Mifel Pay">
           </label>
         </div>
-      </div>
+      </div> -->
 
       <!-- Texto informativo -->
-      <p class="info-3d-secure">Para completar la compra, es necesario tener activado 3D Secure en tu tarjeta. Te recomendamos utilizar tu tarjeta digital para una experiencia de compra más segura y conveniente.</p>
+      <!-- <p class="info-3d-secure">Para completar la compra, es necesario tener activado 3D Secure en tu tarjeta. Te recomendamos utilizar tu tarjeta digital para una experiencia de compra más segura y conveniente.</p> -->
 
       <!-- Formulario de Datos de Tarjeta -->
       <div class="form-tarjeta-container">
-        <h3>Datos de tarjeta</h3>
+        <h3>Datos del cliente</h3>
         <form class="form-tarjeta" [formGroup]="pagoForm" (ngSubmit)="onSubmit()">
           <div class="form-row">
             <div class="form-group">
@@ -80,7 +81,7 @@
               }
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="numeroTarjeta">Número de tarjeta</label>
             <input type="text" id="numeroTarjeta" formControlName="numeroTarjeta">
             @if (submitted && f['numeroTarjeta'].errors) {
@@ -110,9 +111,8 @@
               }
             </div>
           </div>
-          <!-- Campos de dirección corregidos y completos -->
           <div class="form-row">
-            <div class="form-group" style="flex: 3;"> <!-- Más espacio para la calle -->
+            <div class="form-group" style="flex: 3;"> 
               <label for="calle">Calle</label>
               <input type="text" id="calle" formControlName="calle">
               @if (submitted && f['calle'].errors) {
@@ -157,9 +157,9 @@
               @if (submitted && f['pais'].errors) {
                 <div class="error-msg">El país es obligatorio.</div>
               }
-            </div>
-          </div>
-          <button type="submit" class="pagar-btn-form" routerLink="/resumenCompra">Pagar</button>
+            </div> 
+          </div>-->
+          <button type="submit" class="pagar-btn-form" routerLink="/resumenCompra">Registrate gratis</button>
           <p>Tus pagos se realizaran de forma segura con encriptación de 26 bits</p>
         </form>
       </div>
