@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "balam": "ng build --output-path=dist/produccion/at --configuration at",
+    "sandbox": "ng build --output-path=dist/produccion/sandbox --configuration sandbox",
     "serve:ssr:balam_tickets": "node dist/balam_tickets/server/server.mjs"
   },
   "prettier": {
