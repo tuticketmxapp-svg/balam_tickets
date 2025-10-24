@@ -1,8 +1,8 @@
 export const environment = {
     production: true,
     digitalcertificate: '/assets/qz/digital-certificate.txt',
-    apiV1: 'https://sb01-api.balamtickets.com/api/v1/',
-    apiTicketsV1: 'https://sb01-api-tickets.balamtickets.com/api/v1/',
+    apiV1: 'https://sb01-api.balamtickets.com/v1/',
+    apiTicketsV1: 'https://sb01-api-tickets.balamtickets.com/v1/',
     apiTickets: 'https://sb01-api-tickets.balamtickets.com/api/',
     pdf:'https://sb01-api-tickets.balamtickets.com:5003/api/v1/',
     secure: 'https://sb01-api.balamtickets.com',
