@@ -4,18 +4,20 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InfoEvento } from '../../../shared/info-evento/info-evento';
 import { SHome } from '../../services/shome';
 import { EventoDetalle } from '../../models/evento-detalle.model';
+import { ResumenCompraModal } from './resumen-compra-modal';
 
 @Component({
   selector: 'app-pago-boleto',
   standalone: true,
-  imports: [InfoEvento, RouterModule, ReactiveFormsModule],
-  templateUrl: './pago-boleto.html',
+  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal],
+  templateUrl: './pago-boleto.html', 
   styleUrls: ['./pago-boleto.css'],
 })
 export class PagoBoleto implements OnInit {
   pagoForm: FormGroup;
   submitted = false;
   evento: EventoDetalle | null = null; // Propiedad para almacenar los datos del evento
+  isResumenModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
 
   constructor(
@@ -70,13 +72,20 @@ export class PagoBoleto implements OnInit {
 
   // ... resto de tu lógica para el formulario
   onSubmit() {
-    this.submitted = true;
+    /* this.submitted = true;
 
     if (this.pagoForm.invalid) {
       console.log('Formulario inválido');
+      // Forzar la detección de cambios para mostrar los mensajes de error
+      this.cdr.markForCheck();
       return;
     }
 
-    console.log('Formulario válido, procesando pago...', this.pagoForm.value);
+    console.log('Formulario válido, procesando pago...', this.pagoForm.value); */
+    this.isResumenModalVisible = true;
+  }
+
+  closeResumenModal() {
+    this.isResumenModalVisible = false;
   }
 }

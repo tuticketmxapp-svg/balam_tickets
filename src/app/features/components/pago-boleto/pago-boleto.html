@@ -159,10 +159,17 @@
               }
             </div> 
           </div>-->
-          <button type="submit" class="pagar-btn-form" routerLink="/resumenCompra">Registrate gratis</button>
+          <button type="submit" class="pagar-btn-form">Registrate gratis</button>
           <p>Tus pagos se realizaran de forma segura con encriptación de 26 bits</p>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal de Resumen de Compra -->
+<app-resumen-compra-modal 
+  [isVisible]="isResumenModalVisible" 
+  [evento]="evento"
+  (closeModal)="closeResumenModal()">
+</app-resumen-compra-modal>

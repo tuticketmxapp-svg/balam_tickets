@@ -1,0 +1,32 @@
+@if (isVisible) {
+  <div class="modal-overlay" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="close()">&times;</button>
+      <div class="modal-header">
+        <h2>¡Registro exitoso!</h2>
+        <p>¿Te interesan nuestros otros eventos?</p>
+      </div>
+      <div class="modal-body">
+        @if (cargando) {
+          <p>Cargando eventos...</p>
+        } @else {
+          <ul class="event-list">
+            @for (item of todosLosEventos; track item.id) {
+              <li class="event-item">
+                <input 
+                  type="checkbox" 
+                  [id]="'evento-' + item.id"
+                  [checked]="esEventoActual(item)"
+                  [disabled]="esEventoActual(item)">
+                <label [for]="'evento-' + item.id">{{ item.name }}</label>
+              </li>
+            }
+          </ul>
+        }
+        <div class="modal-actions">
+          <button class="modal-action-btn" (click)="registrarYVolver()">Confirmar y finalizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
