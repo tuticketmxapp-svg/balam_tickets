@@ -193,3 +193,48 @@
   font-size: 0.8rem;
   margin-top: -4px;
 }
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 250px; /* Evita que se colapsen en pantallas pequeñas */
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.error-msg {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+/* 🔹 Responsividad */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}

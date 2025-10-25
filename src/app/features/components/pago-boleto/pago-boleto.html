@@ -5,7 +5,7 @@
     <div class="columna-izquierda">
       <app-info-evento [evento]="evento"></app-info-evento>
     </div>
-  
+
     <!-- Columna Derecha -->
     <div class="columna-derecha">
       <h2><strong>Evento Gratuito</strong></h2>
@@ -51,14 +51,14 @@
               <label for="nombreTitular">Nombre del titular</label>
               <input type="text" id="nombreTitular" formControlName="nombreTitular">
               @if (submitted && f['nombreTitular'].errors) {
-                <div class="error-msg">El nombre es obligatorio.</div>
+              <div class="error-msg">El nombre es obligatorio.</div>
               }
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono</label>
               <input type="tel" id="telefono" formControlName="telefono">
               @if (submitted && f['telefono'].errors) {
-                <div class="error-msg">El teléfono es obligatorio.</div>
+              <div class="error-msg">El teléfono es obligatorio.</div>
               }
             </div>
           </div>
@@ -67,17 +67,17 @@
               <label for="email">Email</label>
               <input type="email" id="email" formControlName="email">
               @if (submitted && f['email'].errors) {
-                <div class="error-msg">
-                  @if (f['email'].errors['required']) { <div>El email es obligatorio.</div> }
-                  @if (f['email'].errors['email']) { <div>El formato del email no es válido.</div> }
-                </div>
+              <div class="error-msg">
+                @if (f['email'].errors['required']) { <div>El email es obligatorio.</div> }
+                @if (f['email'].errors['email']) { <div>El formato del email no es válido.</div> }
+              </div>
               }
             </div>
             <div class="form-group">
               <label for="confirmar-email">Confirmar email</label>
               <input type="email" id="confirmar-email" formControlName="confirmarEmail">
               @if (submitted && f['confirmarEmail'].errors) {
-                <div class="error-msg">La confirmación del email es obligatoria.</div>
+              <div class="error-msg">La confirmación del email es obligatoria.</div>
               }
             </div>
           </div>
@@ -168,15 +168,10 @@
 </div>
 
 <!-- Modal de Resumen de Compra -->
-<app-resumen-compra-modal 
-  [isVisible]="isResumenModalVisible" 
-  [evento]="evento"
-  (closeModal)="closeResumenModal()"
+<app-resumen-compra-modal [isVisible]="isResumenModalVisible" [evento]="evento" (closeModal)="closeResumenModal()"
   (confirm)="handleConfirmAndOpenTerms()">
 </app-resumen-compra-modal>
 
 <!-- Modal de Términos y Condiciones -->
-<app-terminos-compra-modal 
-  [isVisible]="isTerminosModalVisible" 
-  (closeModal)="closeTerminosModal()">
+<app-terminos-compra-modal [isVisible]="isTerminosModalVisible" (closeModal)="closeTerminosModal()">
 </app-terminos-compra-modal>

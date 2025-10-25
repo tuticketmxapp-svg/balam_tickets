@@ -17,7 +17,7 @@ export class InfoEvento {
   faHeart = faHeart;
 
   get fechaFormateada(): string {
-    console.log('this.evento',this.evento);
+    console.log('this.evento', this.evento);
     if (!this.evento || !this.evento.event_date || !this.evento.event_time) {
       return 'Fecha no disponible';
     }
@@ -47,4 +47,21 @@ export class InfoEvento {
       return this.evento.event_date; // Si hay un error, mostramos al menos la fecha original.
     }
   }
+  share(): void {
+    const currentUrl = window.location.href;
+
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        text: 'Mira este registro en Balam Tickets:',
+        url: currentUrl,
+      }).catch((err) => {
+        console.error('Error al compartir:', err);
+      });
+    } else {
+      navigator.clipboard.writeText(currentUrl);
+      alert('URL copiada al portapapeles ✅');
+    }
+  }
+
 }

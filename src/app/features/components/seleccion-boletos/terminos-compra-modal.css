@@ -67,3 +67,23 @@
 .rojo{
   color: red!important;
 }
+.modal-action-btn {
+  background-color: #E44521; /* Un color primario fuerte */
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: block; /* Para que ocupe el ancho disponible */
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-action-btn:hover {
+  background-color: #b13115; /* Un tono más oscuro para el hover */
+  transform: translateY(-2px);
+}

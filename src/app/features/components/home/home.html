@@ -1,31 +1,30 @@
 <div class="carousel-container">
   @for (slide of slides; track slide.titulo; let i = $index) {
-    <div 
-      class="carousel-slide" 
-      [class.active]="i === currentIndex"
-      [style.backgroundImage]="'url(' + slide.imagen + ')'">
-      
-      <!-- Capa para el degradado -->
-      <div class="banner-overlay"></div>
-  
-      <!-- Contenedor para toda la información -->
-      <div class="banner-content-wrapper">
-        <div class="banner-info">
-          <h1>{{ slide.titulo }}</h1>
-          <p>{{ slide.fecha }}</p>
-          <p>{{ slide.lugar }}</p>
-        </div>
-        <div class="banner-buttons">
-          <div class="icon-buttons">
-            <button class="icon-btn"><fa-icon [icon]="faShareAlt" /></button>
-            <button class="icon-btn"><fa-icon [icon]="faHeart" /></button>
-          </div>
-          <button class="buy-tickets-btn" [routerLink]="['/pagoBoleto', slide.url_event]">
-            Regístrate
+  <div class="carousel-slide" [class.active]="i === currentIndex" [style.backgroundImage]="'url(' + slide.imagen + ')'">
+
+    <!-- Capa para el degradado -->
+    <div class="banner-overlay"></div>
+
+    <!-- Contenedor para toda la información -->
+    <div class="banner-content-wrapper">
+      <div class="banner-info">
+        <h1>{{ slide.titulo }}</h1>
+        <p>{{ slide.fecha }}</p>
+        <p>{{ slide.lugar }}</p>
+      </div>
+      <div class="banner-buttons">
+        <div class="icon-buttons">
+          <button class="icon-btn" (click)="share()">
+            <fa-icon [icon]="faShareAlt"></fa-icon>
           </button>
+          <button class="icon-btn"><fa-icon [icon]="faHeart" /></button>
         </div>
+        <button class="buy-tickets-btn" [routerLink]="['/pagoBoleto', slide.url_event]">
+          Regístrate
+        </button>
       </div>
     </div>
+  </div>
   }
 
   <!-- Controles de Navegación -->
@@ -35,7 +34,7 @@
   <!-- Indicadores (puntos) -->
   <div class="carousel-indicators">
     @for (slide of slides; track slide.titulo; let i = $index) {
-      <span class="indicator-dot" [class.active]="i === currentIndex" (click)="goToSlide(i)"></span>
+    <span class="indicator-dot" [class.active]="i === currentIndex" (click)="goToSlide(i)"></span>
     }
   </div>
 </div>

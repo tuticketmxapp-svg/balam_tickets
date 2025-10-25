@@ -4,9 +4,11 @@
     <h2 class="evento-titulo">{{evento?.name}}</h2>
     <p class="evento-fecha">{{ fechaFormateada }}</p>
     <p class="evento-lugar">{{evento?.enclosure_address}}</p>
-    
+
     <div class="evento-botones">
-      <button class="icon-btn"><fa-icon [icon]="faShareAlt" /></button>
+      <button class="icon-btn" (click)="share()">
+        <fa-icon [icon]="faShareAlt"></fa-icon>
+      </button>
       <button class="icon-btn"><fa-icon [icon]="faHeart" /></button>
     </div>
   </div>

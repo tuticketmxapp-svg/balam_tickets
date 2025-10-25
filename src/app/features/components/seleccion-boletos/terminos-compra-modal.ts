@@ -14,4 +14,5 @@ export class TerminosCompraModal {
   close() {
     this.closeModal.emit();
   }
+  terminos(){}
 }

@@ -3,8 +3,8 @@
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="modal-close" (click)="close()">&times;</button>
       <div class="modal-header">
-        <h2>¡Registro exitoso!</h2>
-        <p>¿Te interesan nuestros otros eventos?</p>
+        <h2>¿Te interesan nuestros otros eventos?</h2>
+        
       </div>
       <div class="modal-body">
         @if (cargando) {
@@ -24,7 +24,7 @@
           </ul>
         }
         <div class="modal-actions">
-          <button class="modal-action-btn" (click)="registrarYVolver()">Confirmar y finalizar</button>
+          <button class="modal-action-btn" (click)="registrarYVolver()">Confirmar</button>
         </div>
       </div>
     </div>

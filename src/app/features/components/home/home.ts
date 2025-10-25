@@ -118,4 +118,20 @@ export class Home implements OnInit, OnDestroy {
   goToSlide(index: number): void {
     this.currentIndex = index;
   }
+    share(): void {
+    const currentUrl = window.location.href;
+
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        text: 'Mira este registro en Balam tickets:',
+        url: currentUrl,
+      }).catch((err) => {
+        console.error('Error al compartir:', err);
+      });
+    } else {
+      navigator.clipboard.writeText(currentUrl);
+      alert('URL copiada al portapapeles ✅');
+    }
+  }
 }
