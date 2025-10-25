@@ -171,5 +171,12 @@
 <app-resumen-compra-modal 
   [isVisible]="isResumenModalVisible" 
   [evento]="evento"
-  (closeModal)="closeResumenModal()">
+  (closeModal)="closeResumenModal()"
+  (confirm)="handleConfirmAndOpenTerms()">
 </app-resumen-compra-modal>
+
+<!-- Modal de Términos y Condiciones -->
+<app-terminos-compra-modal 
+  [isVisible]="isTerminosModalVisible" 
+  (closeModal)="closeTerminosModal()">
+</app-terminos-compra-modal>

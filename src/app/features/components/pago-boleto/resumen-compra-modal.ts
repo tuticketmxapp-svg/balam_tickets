@@ -15,6 +15,7 @@ export class ResumenCompraModal implements OnChanges {
   @Input() isVisible = false;
   @Input() evento: EventoDetalle | null = null;
   @Output() closeModal = new EventEmitter<void>();
+  @Output() confirm = new EventEmitter<void>();
 
   private sHome = inject(SHome);
   private cdr = inject(ChangeDetectorRef);
@@ -48,8 +49,7 @@ export class ResumenCompraModal implements OnChanges {
 
   registrarYVolver(): void {
     // Aquí puedes añadir lógica para guardar los eventos seleccionados
-    console.log('Eventos adicionales seleccionados...');
-    this.close();
-    // El routerLink en el botón original se encargará de la navegación
+    console.log('Confirmación de registro y eventos adicionales...');
+    this.confirm.emit();
   }
 }

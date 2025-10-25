@@ -5,11 +5,12 @@ import { InfoEvento } from '../../../shared/info-evento/info-evento';
 import { SHome } from '../../services/shome';
 import { EventoDetalle } from '../../models/evento-detalle.model';
 import { ResumenCompraModal } from './resumen-compra-modal';
+import { TerminosCompraModal } from '../seleccion-boletos/terminos-compra-modal';
 
 @Component({
   selector: 'app-pago-boleto',
   standalone: true,
-  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal],
+  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal],
   templateUrl: './pago-boleto.html', 
   styleUrls: ['./pago-boleto.css'],
 })
@@ -18,6 +19,7 @@ export class PagoBoleto implements OnInit {
   submitted = false;
   evento: EventoDetalle | null = null; // Propiedad para almacenar los datos del evento
   isResumenModalVisible = false;
+  isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
 
   constructor(
@@ -87,5 +89,15 @@ export class PagoBoleto implements OnInit {
 
   closeResumenModal() {
     this.isResumenModalVisible = false;
+  }
+
+  handleConfirmAndOpenTerms() {
+    this.isResumenModalVisible = false; // Cierra el primer modal
+    this.isTerminosModalVisible = true; // Abre el segundo modal
+    this.cdr.markForCheck(); // Asegura que la vista se actualice
+  }
+
+  closeTerminosModal() {
+    this.isTerminosModalVisible = false;
   }
 }
