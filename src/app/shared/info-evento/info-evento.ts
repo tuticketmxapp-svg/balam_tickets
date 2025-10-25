@@ -17,13 +17,14 @@ export class InfoEvento {
   faHeart = faHeart;
 
   get fechaFormateada(): string {
-    if (!this.evento || !this.evento.event_date || !this.evento.end_event_time) {
+    console.log('this.evento',this.evento);
+    if (!this.evento || !this.evento.event_date || !this.evento.event_time) {
       return 'Fecha no disponible';
     }
 
     try {
       // Creamos un objeto Date combinando la fecha y la hora.
-      const fechaCompleta = new Date(`${this.evento.event_date}T${this.evento.end_event_time}`);
+      const fechaCompleta = new Date(`${this.evento.event_date}T${this.evento.event_time}`);
 
       const formatoFecha = new Intl.DateTimeFormat('es-MX', {
         weekday: 'long',
