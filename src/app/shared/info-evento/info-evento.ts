@@ -17,7 +17,6 @@ export class InfoEvento {
   faHeart = faHeart;
 
   get fechaFormateada(): string {
-    console.log('this.evento', this.evento);
     if (!this.evento || !this.evento.event_date || !this.evento.event_time) {
       return 'Fecha no disponible';
     }

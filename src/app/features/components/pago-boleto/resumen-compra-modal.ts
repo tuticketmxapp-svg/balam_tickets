@@ -17,16 +17,15 @@ export class ResumenCompraModal implements OnChanges {
   @Output() closeModal = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<void>();
   @Input() dataCliente: EventoDetalle | null = null;
-
+  @Output() datosEventosExtra = new EventEmitter<any>();
+  isTerminosModalVisible = false;
   private sHome = inject(SHome);
   private cdr = inject(ChangeDetectorRef);
 
   todosLosEventos: Evento[] = [];
   cargando = true;
-
+  eventosSeleccionados: any[] = [];
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('this.evento',this.evento);
-    console.log('this.dataCliente',this.dataCliente);
     // Si el modal se hace visible, cargamos los eventos
     if (changes['isVisible'] && changes['isVisible'].currentValue === true) {
       this.cargarEventos();
@@ -49,10 +48,23 @@ export class ResumenCompraModal implements OnChanges {
   close(): void {
     this.closeModal.emit();
   }
-
   registrarYVolver(): void {
-    // Aquí puedes añadir lógica para guardar los eventos seleccionados
-    console.log('Confirmación de registro y eventos adicionales...');
-    this.confirm.emit();
+    this.datosEventosExtra.emit(this.eventosSeleccionados);
+     this.isTerminosModalVisible = true;
+   setTimeout(() => this.confirm.emit(), 0);
+  }
+  toggleEventoSeleccionado(item: any, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    if (checked) {
+      // Agregar si no está ya
+      if (!this.eventosSeleccionados.some(ev => ev.id === item.id)) {
+        this.eventosSeleccionados.push(item);
+      }
+    } else {
+      // Eliminar si se deselecciona
+      this.eventosSeleccionados = this.eventosSeleccionados.filter(ev => ev.id !== item.id);
+    }
+
   }
 }

@@ -11,7 +11,7 @@ import { TerminosCompraModal } from '../seleccion-boletos/terminos-compra-modal'
   selector: 'app-pago-boleto',
   standalone: true,
   imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal],
-  templateUrl: './pago-boleto.html', 
+  templateUrl: './pago-boleto.html',
   styleUrls: ['./pago-boleto.css'],
 })
 export class PagoBoleto implements OnInit {
@@ -22,6 +22,7 @@ export class PagoBoleto implements OnInit {
   isResumenModalVisible = false;
   isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
+  dataEventExtra: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +64,6 @@ export class PagoBoleto implements OnInit {
         next: (data) => {
           this.evento = data;
           this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
-          console.log('Evento cargado en página de pago:', this.evento);
         },
         error: (err) => {
           console.error('Error al cargar el evento en la página de pago', err);
@@ -75,20 +75,18 @@ export class PagoBoleto implements OnInit {
 
   // ... resto de tu lógica para el formulario
   onSubmit() {
-    this.submitted = true;
+    // this.submitted = true;
 
-    if (this.pagoForm.invalid) {
-      console.log('Formulario inválido');
-      // Forzar la detección de cambios para mostrar los mensajes de error
-      this.cdr.markForCheck();
-      return;
-    }
+    // if (this.pagoForm.invalid) {
+    //   // Forzar la detección de cambios para mostrar los mensajes de error
+    //   this.cdr.markForCheck();
+    //   return;
+    // }
 
-    console.log('Formulario válido, procesando pago...', this.pagoForm.value);
-        if (this.pagoForm.valid) {
-    this.dataCliente = { ...this.pagoForm.value }; 
-    this.isTerminosModalVisible = true;
-  }
+    // if (this.pagoForm.valid) {
+    //   this.dataCliente = { ...this.pagoForm.value };
+    //   this.isTerminosModalVisible = true;
+    // }
     this.isResumenModalVisible = true;
   }
 
@@ -100,13 +98,16 @@ export class PagoBoleto implements OnInit {
     this.isResumenModalVisible = false; // Cierra el primer modal
     this.isTerminosModalVisible = true; // Abre el segundo modal
     if (this.pagoForm.valid) {
-    this.dataCliente = { ...this.pagoForm.value }; 
-    this.isTerminosModalVisible = true;
-  }
+      this.dataCliente = { ...this.pagoForm.value };
+      this.isTerminosModalVisible = true;
+    }
     this.cdr.markForCheck(); // Asegura que la vista se actualice
   }
 
   closeTerminosModal() {
     this.isTerminosModalVisible = false;
+  }
+  recibirDataEventExtra(datos: any) {
+    this.dataEventExtra = datos;
   }
 }

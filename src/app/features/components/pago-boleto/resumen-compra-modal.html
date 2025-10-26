@@ -17,7 +17,8 @@
                   type="checkbox" 
                   [id]="'evento-' + item.id"
                   [checked]="esEventoActual(item)"
-                  [disabled]="esEventoActual(item)">
+                  [disabled]="esEventoActual(item)"
+                  (change)="toggleEventoSeleccionado(item, $event)">
                 <label [for]="'evento-' + item.id">{{ item.name }}</label>
               </li>
             }

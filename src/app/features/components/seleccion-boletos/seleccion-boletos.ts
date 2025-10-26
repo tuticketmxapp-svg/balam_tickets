@@ -34,7 +34,6 @@ export class SeleccionBoletos implements OnInit {
           // Inicializamos la cantidad de boletos para cada zona
           this.evento.zone_prices.forEach((zona) => (zona.cantidad = 0));
           this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
-          console.log('Evento cargado:', this.evento);
         },
         error: (err) => {
           console.error('Error al cargar el evento', err);

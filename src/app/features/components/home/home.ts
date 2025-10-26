@@ -40,7 +40,6 @@ export class Home implements OnInit, OnDestroy {
     this.eventosSubscription = this.sHome.getEventos().subscribe({
       next: (eventos) => {
         this.slides = eventos.map(this.transformarEventoASlide);
-        console.log('Eventos cargados para el carrusel:', this.slides);
         if (this.slides.length === 0) {
           this.slides.push({
             titulo: 'Próximamente',
