@@ -16,6 +16,7 @@ export class ResumenCompraModal implements OnChanges {
   @Input() evento: EventoDetalle | null = null;
   @Output() closeModal = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<void>();
+  @Input() dataCliente: EventoDetalle | null = null;
 
   private sHome = inject(SHome);
   private cdr = inject(ChangeDetectorRef);
@@ -24,6 +25,8 @@ export class ResumenCompraModal implements OnChanges {
   cargando = true;
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('this.evento',this.evento);
+    console.log('this.dataCliente',this.dataCliente);
     // Si el modal se hace visible, cargamos los eventos
     if (changes['isVisible'] && changes['isVisible'].currentValue === true) {
       this.cargarEventos();

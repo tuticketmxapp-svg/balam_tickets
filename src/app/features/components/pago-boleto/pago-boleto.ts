@@ -18,6 +18,7 @@ export class PagoBoleto implements OnInit {
   pagoForm: FormGroup;
   submitted = false;
   evento: EventoDetalle | null = null; // Propiedad para almacenar los datos del evento
+  dataCliente: any;
   isResumenModalVisible = false;
   isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
@@ -33,16 +34,16 @@ export class PagoBoleto implements OnInit {
       telefono: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       confirmarEmail: ['', Validators.required],
-      numeroTarjeta: ['', Validators.required],
-      mesExp: ['', Validators.required],
-      anoExp: ['', Validators.required],
-      cvv: ['', Validators.required],
-      calle: ['', Validators.required],
-      numero: ['', Validators.required],
-      codigoPostal: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      estado: ['', Validators.required],
-      pais: ['', Validators.required],
+      numeroTarjeta: [''],
+      mesExp: [''],
+      anoExp: [''],
+      cvv: [''],
+      calle: [''],
+      numero: [''],
+      codigoPostal: [''],
+      ciudad: [''],
+      estado: [''],
+      pais: [''],
     }, { validators: this.emailCoincide });
   }
 
@@ -74,7 +75,7 @@ export class PagoBoleto implements OnInit {
 
   // ... resto de tu lógica para el formulario
   onSubmit() {
-    /* this.submitted = true;
+    this.submitted = true;
 
     if (this.pagoForm.invalid) {
       console.log('Formulario inválido');
@@ -83,7 +84,11 @@ export class PagoBoleto implements OnInit {
       return;
     }
 
-    console.log('Formulario válido, procesando pago...', this.pagoForm.value); */
+    console.log('Formulario válido, procesando pago...', this.pagoForm.value);
+        if (this.pagoForm.valid) {
+    this.dataCliente = { ...this.pagoForm.value }; 
+    this.isTerminosModalVisible = true;
+  }
     this.isResumenModalVisible = true;
   }
 
@@ -94,6 +99,10 @@ export class PagoBoleto implements OnInit {
   handleConfirmAndOpenTerms() {
     this.isResumenModalVisible = false; // Cierra el primer modal
     this.isTerminosModalVisible = true; // Abre el segundo modal
+    if (this.pagoForm.valid) {
+    this.dataCliente = { ...this.pagoForm.value }; 
+    this.isTerminosModalVisible = true;
+  }
     this.cdr.markForCheck(); // Asegura que la vista se actualice
   }
 
