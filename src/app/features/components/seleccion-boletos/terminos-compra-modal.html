@@ -1,26 +1,40 @@
 @if (isVisible) {
-  <div class="modal-overlay" (click)="close()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="modal-close" (click)="close()">&times;</button>
-      <div class="modal-header">
-       
-      </div>
-      <div class="modal-body">
-        <h4 class="rojo"> ATENCIÓN: ESTE ES UN REGISTRO INDIVIDUAL POR EVENTO A REALIZARSE EN EL FORO CHIAPAS EN EL MARCO DE LA FERIA CHIAPAS 2025. RECUERDA CANJEAR TU REGISTRO POR TU ACCESO AL FORO EN LAS FECHAS PREVIAS AL EVENTO EN LOS PUNTOS AUTORIZADOS.</h4>
-        <p>EL CLIENTE SOLO TIENE QUE DARLE CLICK A ACEPTAR Y EMPEZARÁ SU REGISTRO.</p>
-        <p>AL COMPLETAR EL LLENADO DE SUS DATOS PARA EL REGISTRO EL CLIENTE TENDRÁ QUE PALOMEAR LA CASILLA DE ACEPTO LOS TÉRMINOS Y CONDICIONES PARA PODER TERMINAR EL REGISTRO</p>
-        <h4 class="text-center"><strong>TÉRMINOS Y CONDICIONES</strong></h4>
-        <ol>
-          <li>BALAMTICKETS únicamente distribuye tickets de los eventos ofrecidos a través de su sistema, por lo que no es responsable del contenido, horarios, cancelación, posposición o atraso en el horario de los mismos. </li>
-          <li>BALAMTICKETS proporcionará al cliente el registro correspondiente al evento seleccionado.</li>
-          <li>No compartas tu registro digital.</li>
-          <li>La venta de este registro puede considerarse una reventa, lo cual constituye un delito.</li>
-          <li>BALAMTICKETS reitera que este registro es GRATUITO, por lo que se deslinda de cualquier cargo, venta o mal uso que alguna persona pueda darle al mismo.</li>
-          </ol>
-            <div class="modal-actions">
-          <button class="modal-action-btn" (click)="terminos()">Confirmar</button>
-        </div>
+<div class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="close()">&times;</button>
+    <div class="modal-header">
+
+    </div>
+    <div class="modal-body">
+      <h4 class="rojo"> ATENCIÓN: ESTE ES UN REGISTRO INDIVIDUAL POR EVENTO A REALIZARSE EN EL FORO CHIAPAS EN EL MARCO
+        DE LA FERIA CHIAPAS 2025. RECUERDA CANJEAR TU REGISTRO POR TU ACCESO AL FORO EN LAS FECHAS PREVIAS AL EVENTO EN
+        LOS PUNTOS AUTORIZADOS.</h4>
+      <p>EL CLIENTE SOLO TIENE QUE DARLE CLICK A ACEPTAR Y EMPEZARÁ SU REGISTRO.</p>
+      <p>AL COMPLETAR EL LLENADO DE SUS DATOS PARA EL REGISTRO EL CLIENTE TENDRÁ QUE PALOMEAR LA CASILLA DE ACEPTO LOS
+        TÉRMINOS Y CONDICIONES PARA PODER TERMINAR EL REGISTRO</p>
+      <h4 class="text-center"><strong>TÉRMINOS Y CONDICIONES</strong></h4>
+      <ol>
+        <li>BALAMTICKETS únicamente distribuye tickets de los eventos ofrecidos a través de su sistema, por lo que no es
+          responsable del contenido, horarios, cancelación, posposición o atraso en el horario de los mismos. </li>
+        <li>BALAMTICKETS proporcionará al cliente el registro correspondiente al evento seleccionado.</li>
+        <li>No compartas tu registro digital.</li>
+        <li>La venta de este registro puede considerarse una reventa, lo cual constituye un delito.</li>
+        <li>BALAMTICKETS reitera que este registro es GRATUITO, por lo que se deslinda de cualquier cargo, venta o mal
+          uso que alguna persona pueda darle al mismo.</li>
+      </ol>
+      <div class="modal-actions">
+        <button class="modal-action-btn" (click)="terminos()">Confirmar</button>
       </div>
     </div>
   </div>
+  
+</div>
+
 }
+<app-verificacion-codigo-modal
+  *ngIf="mostrarModalVerificacion"
+  [isVisible]="mostrarModalVerificacion"
+  [mensaje]="mensaje"
+  (close)="mostrarModalVerificacion = false"
+  (validarCodigo)="validarCodigo($event)">
+</app-verificacion-codigo-modal>

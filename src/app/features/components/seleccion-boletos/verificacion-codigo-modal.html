@@ -1,0 +1,19 @@
+<div class="modal-overlay" >
+  <div class="modal">
+    <h2>Verificación de registro</h2>
+    <p>{{ mensaje }}</p>
+
+    <label for="codigo">Código de verificación</label>
+    <input
+      id="codigo"
+      type="text"
+ 
+      placeholder="Ingrese su código"
+    />
+
+    <div class="modal-buttons">
+      <button class="btn-validar" (click)="onValidar()">Validar código</button>
+      <button class="btn-cerrar" (click)="onClose()">Cerrar</button>
+    </div>
+  </div>
+</div>

@@ -3,27 +3,35 @@ import { EventoDetalle } from '../../models/evento-detalle.model';
 import moment from 'moment';
 import { SPayment } from '../../services/payment';
 import { Subscription } from 'rxjs';
+import { VerificacionCodigoModalComponent } from "./verificacion-codigo-modal";
+import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-terminos-compra-modal',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, VerificacionCodigoModalComponent],
   templateUrl: './terminos-compra-modal.html',
   styleUrls: ['./terminos-compra-modal.css']
 })
 export class TerminosCompraModal implements OnChanges {
+
   @Input() isVisible = false;
   @Output() closeModal = new EventEmitter<void>();
   @Input() evento: EventoDetalle | null = null;
   @Input() dataCliente: null = null;
   @Input() dataEventExtra: any = null;
+  mensaje: string = '';
+  mostrarModalVerificacion: boolean = false;
   private eventosSubscription?: Subscription;
   holdToken: string = '';
-  constructor(private sPayment: SPayment) { }
+  constructor(private sPayment: SPayment, private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
     this.obtenerHoldToken();
+    console.log('mostrarModalVerificacion', this.mostrarModalVerificacion);
   }
-   obtenerHoldToken() {
+  obtenerHoldToken() {
     this.sPayment.getHolToken().subscribe({
       next: (res) => {
         console.log('✅ holdToken recibido:', res);
@@ -143,17 +151,59 @@ export class TerminosCompraModal implements OnChanges {
     });
     this.sPayment.prebook(resultado).subscribe({
       next: (res) => {
-        console.log('✅ Prebook exitoso', res);
-        // Aquí puedes abrir modal de confirmación, limpiar formulario, etc.
+       const eventosRegistradosNombres = res.map((e: { name: any; }) => e.name);
+
+      
+       let mensaje = `✅ Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
+        if (res.length === 0) {
+          Swal.fire({
+            icon: 'warning', // 'success', 'error', 'info', 'question'
+            title: '⚠️ Atención',
+            text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
+            confirmButtonText: 'Aceptar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/']); // redirige al home
+            }
+          });
+        } else {
+          const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}. 
+Ya contaba con registro previo para los eventos:.`;
+          Swal.fire({
+            icon: 'info',
+            title: 'Registro Parcial',
+            html: `<p>${mensaje}</p>
+           <p>Para ver el resumen de su registro, revise su email e ingrese el código de verificación:</p>
+           <input id="codigo-verificacion" class="swal2-input" placeholder="Código de Verificación">`,
+            showCancelButton: true,
+            confirmButtonText: 'Validar Código',
+            preConfirm: () => {
+              const codigo = (document.getElementById('codigo-verificacion') as HTMLInputElement).value;
+              if (!codigo) {
+                Swal.showValidationMessage('Debes ingresar el código de verificación');
+              }
+              return codigo;
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const codigoIngresado = result.value;
+              console.log('Código ingresado:', codigoIngresado);
+              // Aquí puedes llamar a tu función para validar el código
+            }
+          });
+        }
       },
-      error: (err) => {
-        console.error('❌ Error en prebook', err);
-        // Manejo de error
-      }
+      error: (err) => console.error('Error en prebook', err)
     });
-    console.log('📦 Estructura lista para enviar o pasar al modal:', resultado);
+
+
+   
 
     return resultado;
+  }
+  validarCodigo(codigo: string) {
+    console.log('Código ingresado desde modal:', codigo);
+    // Aquí agregas la lógica de validación
   }
 
 }

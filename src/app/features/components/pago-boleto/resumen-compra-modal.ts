@@ -50,8 +50,8 @@ export class ResumenCompraModal implements OnChanges {
   }
   registrarYVolver(): void {
     this.datosEventosExtra.emit(this.eventosSeleccionados);
-     this.isTerminosModalVisible = true;
-   setTimeout(() => this.confirm.emit(), 0);
+    this.isTerminosModalVisible = true;
+    setTimeout(() => this.confirm.emit(), 0);
   }
   toggleEventoSeleccionado(item: any, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
