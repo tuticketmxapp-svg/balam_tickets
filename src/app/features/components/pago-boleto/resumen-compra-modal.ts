@@ -3,11 +3,12 @@ import { EventoDetalle } from '../../models/evento-detalle.model';
 import { RouterModule } from '@angular/router';
 import { SHome } from '../../services/shome';
 import { Evento } from '../../models/Ievento';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
 @Component({
   selector: 'app-resumen-compra-modal',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, LottieComponent],
   templateUrl: './resumen-compra-modal.html',
   styleUrls: ['./resumen-compra-modal.css', '../seleccion-boletos/terminos-compra-modal.css']
 })
@@ -21,10 +22,13 @@ export class ResumenCompraModal implements OnChanges {
   isTerminosModalVisible = false;
   private sHome = inject(SHome);
   private cdr = inject(ChangeDetectorRef);
-
+  isLoading = false;
   todosLosEventos: Evento[] = [];
   cargando = true;
   eventosSeleccionados: any[] = [];
+  lottieOptions: AnimationOptions = {
+    path: '/assets/loader.json',
+  };
   ngOnChanges(changes: SimpleChanges): void {
     // Si el modal se hace visible, cargamos los eventos
     if (changes['isVisible'] && changes['isVisible'].currentValue === true) {
@@ -33,10 +37,12 @@ export class ResumenCompraModal implements OnChanges {
   }
 
   cargarEventos(): void {
+    this.isLoading = true;
     this.cargando = true;
     this.sHome.getEventos().subscribe(eventos => {
       this.todosLosEventos = eventos;
       this.cargando = false;
+      this.isLoading = false;
       this.cdr.markForCheck();
     });
   }

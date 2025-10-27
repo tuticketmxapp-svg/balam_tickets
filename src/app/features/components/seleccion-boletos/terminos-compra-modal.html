@@ -1,4 +1,10 @@
+
 @if (isVisible) {
+  @if (isLoading) {
+<div class="loader-overlay">
+  <ng-lottie [options]="lottieOptions" [height]="'200px'" [width]="'200px'"></ng-lottie>
+</div>
+}
 <div class="modal-overlay" (click)="close()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <button class="modal-close" (click)="close()">&times;</button>

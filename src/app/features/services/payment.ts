@@ -29,7 +29,7 @@ export class SPayment {
         return this.http.get<any>(`${environment.apiV1}seats/holdToken`).pipe(catchError(error => this.errorHandler.handleError(error)));
     }
     validarCodigo(payload: { email: string, codigo_verificacion: string }) {
-        return this.http.post<any>(`${environment.apiV1}validate-code`, payload)
+        return this.http.post<any>(`${environment.apiV1}verificar-codigo`, payload)
             .pipe(
                 catchError(err => {
                     console.error('Error al validar código:', err);

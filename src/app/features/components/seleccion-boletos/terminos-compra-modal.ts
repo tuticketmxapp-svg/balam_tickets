@@ -7,11 +7,12 @@ import { VerificacionCodigoModalComponent } from "./verificacion-codigo-modal";
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
 @Component({
   selector: 'app-terminos-compra-modal',
   standalone: true,
-  imports: [CommonModule, VerificacionCodigoModalComponent],
+  imports: [CommonModule, VerificacionCodigoModalComponent, LottieComponent],
   templateUrl: './terminos-compra-modal.html',
   styleUrls: ['./terminos-compra-modal.css']
 })
@@ -26,7 +27,12 @@ export class TerminosCompraModal implements OnInit {
   mostrarModalVerificacion: boolean = false;
   private eventosSubscription?: Subscription;
   holdToken: string = '';
+  isLoading = false;
+
   constructor(private sPayment: SPayment, private router: Router) { }
+  lottieOptions: AnimationOptions = {
+    path: '/assets/loader.json',
+  };
   ngOnInit(): void {
     this.obtenerHoldToken();
   }
@@ -49,6 +55,8 @@ export class TerminosCompraModal implements OnInit {
 
   }
   generarEstructuraEventos() {
+    this.isLoading = true;
+
     const eventoPrincipal = this.evento;
     const eventosExtras = this.dataEventExtra || [];
     const cliente = this.dataCliente || {};
@@ -145,104 +153,83 @@ export class TerminosCompraModal implements OnInit {
         user_id: "1"
       };
     });
+    
     this.sPayment.prebook(resultado).subscribe({
-      next: (res) => {
-        const eventosRegistradosNombres = res.map((e: { eventName: any; }) => e.eventName);
+      next: (res: any) => {
+        // Detectar si es array o solo objeto con mensaje
+        const eventosRegistradosNombres = Array.isArray(res)
+          ? res.map((e: any) => e.eventName)
+          : [];
 
-
-        let mensaje = `✅ Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
-        console.log('res', res);
-        if (res.message == 'No fue posible registrarlo al evento') {
+        if (res?.message === 'No fue posible registrarlo al evento' || eventosRegistradosNombres.length === 0) {
+          // Todos los eventos ya estaban registrados
           Swal.fire({
             icon: 'warning',
             title: '⚠️ Atención',
             text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
             confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.isLoading = false; // 🔹 Se quita loader cuando cierra modal
+            this.router.navigate(['/']);
+          });
+        } else {
+          this.isLoading = false;
+          console.log('Registro Parcial',this.isLoading);
+          // Algunos eventos nuevos
+          const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
+          Swal.fire({
+            icon: 'info',
+            title: 'Registro Parcial',
+            html: `<p>${mensaje}</p>
+               <p>Para ver el resumen de su registro, revise su email e ingrese el código de verificación:</p>
+               <input id="codigo-verificacion" class="swal2-input" placeholder="Código de Verificación">`,
+            showCancelButton: true,
+            confirmButtonText: 'Validar Código',
+            preConfirm: () => {
+              const codigo = (document.getElementById('codigo-verificacion') as HTMLInputElement).value;
+              if (!codigo) {
+                Swal.showValidationMessage('Debes ingresar el código de verificación');
+              }
+              return codigo;
+            }
           }).then((result) => {
+            this.isLoading = false; // 🔹 Quitar loader al cerrar modal
             if (result.isConfirmed) {
+              const payload = {
+                email: email || '',
+                codigo_verificacion: result.value
+              };
+              this.sPayment.validarCodigo(payload).subscribe({
+                next: (res) => {
+                  Swal.fire(res.success ? 'Éxito' : 'Error', res.message, res.success ? 'success' : 'error');
+                  this.router.navigate(['/']);
+                },
+                error: () => {
+                  Swal.fire('Error', 'No se pudo validar el código', 'error');
+                  this.router.navigate(['/']);
+                }
+              });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
               this.router.navigate(['/']);
             }
           });
-        } else {
-          if (res.length === 0) {
-            Swal.fire({
-              icon: 'warning',
-              title: '⚠️ Atención',
-              text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
-              confirmButtonText: 'Aceptar'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.router.navigate(['/']);
-              }
-            });
-          } else {
-            const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}. 
-Ya contaba con registro previo para los eventos:.`;
-            Swal.fire({
-              icon: 'info',
-              title: 'Registro Parcial',
-              html: `<p>${mensaje}</p>
-         <p>Para ver el resumen de su registro, revise su email e ingrese el código de verificación:</p>
-         <input id="codigo-verificacion" class="swal2-input" placeholder="Código de Verificación">`,
-              showCancelButton: true,
-              confirmButtonText: 'Validar Código',
-              preConfirm: () => {
-                const codigo = (document.getElementById('codigo-verificacion') as HTMLInputElement).value;
-                if (!codigo) {
-                  Swal.showValidationMessage('Debes ingresar el código de verificación');
-                }
-                return codigo;
-              }
-            }).then((result) => {
-              if (result.isConfirmed) {
-                const codigoIngresado = result.value;
-
-                const payload = {
-                  email: email,
-                  codigo_verificacion: codigoIngresado
-                };
-                this.sPayment.validarCodigo(payload).subscribe({
-                  next: (res) => {
-                    if (res.success) {
-                      Swal.fire('Éxito', res.message, 'success');
-                    } else {
-                      Swal.fire('Error', res.message, 'error');
-                    }
-                  },
-                  error: () => {
-                    Swal.fire('Error', 'No se pudo validar el código', 'error');
-                  }
-                });
-
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                this.router.navigate(['/']);
-              }
-            });
-
-
-          }
         }
-
       },
       error: (err) => {
-        console.error('❌ Error en prebook:', err);
-
-        // Si el backend devolvió un mensaje específico
         const mensaje = err?.error?.message || 'Ocurrió un error al procesar el registro.';
-
         Swal.fire({
           icon: 'error',
           title: 'Error al registrar',
           text: mensaje,
           confirmButtonText: 'Aceptar'
+        }).then(() => {
+          this.isLoading = false; // 🔹 Siempre quitar loader después del modal
         });
+       
       }
+      
     });
-
-
-
-
-    return resultado;
+ this.isLoading = false;
   }
   validarCodigo(codigo: string) {
   }
