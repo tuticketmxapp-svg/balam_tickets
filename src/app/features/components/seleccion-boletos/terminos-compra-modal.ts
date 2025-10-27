@@ -29,13 +29,11 @@ export class TerminosCompraModal implements OnChanges {
   constructor(private sPayment: SPayment, private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
     this.obtenerHoldToken();
-    console.log('mostrarModalVerificacion', this.mostrarModalVerificacion);
   }
   obtenerHoldToken() {
     this.sPayment.getHolToken().subscribe({
       next: (res) => {
-        console.log('✅ holdToken recibido:', res);
-        this.holdToken = res?.holdToken || res; // Ajusta según cómo venga el JSON
+        this.holdToken = res?.holdToken || res; 
       },
       error: (err) => {
         console.error('❌ Error al obtener holdToken:', err);
@@ -51,20 +49,18 @@ export class TerminosCompraModal implements OnChanges {
 
   }
   generarEstructuraEventos() {
-    const eventoPrincipal = this.evento;               // viene del @Input
-    const eventosExtras = this.dataEventExtra || []; // viene del componente hijo
-    const cliente = this.dataCliente || {};  // datos del formulario
+    const eventoPrincipal = this.evento;               
+    const eventosExtras = this.dataEventExtra || []; 
+    const cliente = this.dataCliente || {}; 
     const {
       nombreTitular = '',
       telefono = '',
       email = ''
     } = this.dataCliente || {};
-    console.log('cliente', cliente);
     const todos = [eventoPrincipal, ...eventosExtras];
     const resultado: any = {};
 
     todos.forEach((evento) => {
-      console.log('evento', this.evento);
       const zonas = evento.zone_prices || evento.zonePrices || [];
 
       resultado[evento.id] = {
@@ -151,19 +147,19 @@ export class TerminosCompraModal implements OnChanges {
     });
     this.sPayment.prebook(resultado).subscribe({
       next: (res) => {
-       const eventosRegistradosNombres = res.map((e: { name: any; }) => e.name);
+        const eventosRegistradosNombres = res.map((e: { eventName: any; }) => e.eventName);
 
-      
-       let mensaje = `✅ Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
+
+        let mensaje = `✅ Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
         if (res.length === 0) {
           Swal.fire({
-            icon: 'warning', // 'success', 'error', 'info', 'question'
+            icon: 'warning', 
             title: '⚠️ Atención',
             text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
             confirmButtonText: 'Aceptar'
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/']); // redirige al home
+              this.router.navigate(['/']); 
             }
           });
         } else {
@@ -187,8 +183,8 @@ Ya contaba con registro previo para los eventos:.`;
           }).then((result) => {
             if (result.isConfirmed) {
               const codigoIngresado = result.value;
-              console.log('Código ingresado:', codigoIngresado);
-              // Aquí puedes llamar a tu función para validar el código
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              this.router.navigate(['/']);
             }
           });
         }
@@ -197,13 +193,11 @@ Ya contaba con registro previo para los eventos:.`;
     });
 
 
-   
+
 
     return resultado;
   }
   validarCodigo(codigo: string) {
-    console.log('Código ingresado desde modal:', codigo);
-    // Aquí agregas la lógica de validación
   }
 
 }
