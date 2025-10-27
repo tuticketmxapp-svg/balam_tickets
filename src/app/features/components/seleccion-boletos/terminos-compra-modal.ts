@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, OnInit } from '@angular/core';
 import { EventoDetalle } from '../../models/evento-detalle.model';
 import moment from 'moment';
 import { SPayment } from '../../services/payment';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './terminos-compra-modal.html',
   styleUrls: ['./terminos-compra-modal.css']
 })
-export class TerminosCompraModal implements OnChanges {
+export class TerminosCompraModal implements OnInit {
 
   @Input() isVisible = false;
   @Output() closeModal = new EventEmitter<void>();
@@ -27,13 +27,13 @@ export class TerminosCompraModal implements OnChanges {
   private eventosSubscription?: Subscription;
   holdToken: string = '';
   constructor(private sPayment: SPayment, private router: Router) { }
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
     this.obtenerHoldToken();
   }
   obtenerHoldToken() {
     this.sPayment.getHolToken().subscribe({
       next: (res) => {
-        this.holdToken = res?.holdToken || res; 
+        this.holdToken = res?.holdToken || res;
       },
       error: (err) => {
         console.error('❌ Error al obtener holdToken:', err);
@@ -49,9 +49,9 @@ export class TerminosCompraModal implements OnChanges {
 
   }
   generarEstructuraEventos() {
-    const eventoPrincipal = this.evento;               
-    const eventosExtras = this.dataEventExtra || []; 
-    const cliente = this.dataCliente || {}; 
+    const eventoPrincipal = this.evento;
+    const eventosExtras = this.dataEventExtra || [];
+    const cliente = this.dataCliente || {};
     const {
       nombreTitular = '',
       telefono = '',
@@ -151,45 +151,92 @@ export class TerminosCompraModal implements OnChanges {
 
 
         let mensaje = `✅ Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
-        if (res.length === 0) {
+        console.log('res', res);
+        if (res.message == 'No fue posible registrarlo al evento') {
           Swal.fire({
-            icon: 'warning', 
+            icon: 'warning',
             title: '⚠️ Atención',
             text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
             confirmButtonText: 'Aceptar'
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/']); 
-            }
-          });
-        } else {
-          const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}. 
-Ya contaba con registro previo para los eventos:.`;
-          Swal.fire({
-            icon: 'info',
-            title: 'Registro Parcial',
-            html: `<p>${mensaje}</p>
-           <p>Para ver el resumen de su registro, revise su email e ingrese el código de verificación:</p>
-           <input id="codigo-verificacion" class="swal2-input" placeholder="Código de Verificación">`,
-            showCancelButton: true,
-            confirmButtonText: 'Validar Código',
-            preConfirm: () => {
-              const codigo = (document.getElementById('codigo-verificacion') as HTMLInputElement).value;
-              if (!codigo) {
-                Swal.showValidationMessage('Debes ingresar el código de verificación');
-              }
-              return codigo;
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              const codigoIngresado = result.value;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
               this.router.navigate(['/']);
             }
           });
+        } else {
+          if (res.length === 0) {
+            Swal.fire({
+              icon: 'warning',
+              title: '⚠️ Atención',
+              text: 'Usted ya contaba con registros previos para todos los eventos seleccionados.',
+              confirmButtonText: 'Aceptar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['/']);
+              }
+            });
+          } else {
+            const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}. 
+Ya contaba con registro previo para los eventos:.`;
+            Swal.fire({
+              icon: 'info',
+              title: 'Registro Parcial',
+              html: `<p>${mensaje}</p>
+         <p>Para ver el resumen de su registro, revise su email e ingrese el código de verificación:</p>
+         <input id="codigo-verificacion" class="swal2-input" placeholder="Código de Verificación">`,
+              showCancelButton: true,
+              confirmButtonText: 'Validar Código',
+              preConfirm: () => {
+                const codigo = (document.getElementById('codigo-verificacion') as HTMLInputElement).value;
+                if (!codigo) {
+                  Swal.showValidationMessage('Debes ingresar el código de verificación');
+                }
+                return codigo;
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                const codigoIngresado = result.value;
+
+                const payload = {
+                  email: email,
+                  codigo_verificacion: codigoIngresado
+                };
+                this.sPayment.validarCodigo(payload).subscribe({
+                  next: (res) => {
+                    if (res.success) {
+                      Swal.fire('Éxito', res.message, 'success');
+                    } else {
+                      Swal.fire('Error', res.message, 'error');
+                    }
+                  },
+                  error: () => {
+                    Swal.fire('Error', 'No se pudo validar el código', 'error');
+                  }
+                });
+
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                this.router.navigate(['/']);
+              }
+            });
+
+
+          }
         }
+
       },
-      error: (err) => console.error('Error en prebook', err)
+      error: (err) => {
+        console.error('❌ Error en prebook:', err);
+
+        // Si el backend devolvió un mensaje específico
+        const mensaje = err?.error?.message || 'Ocurrió un error al procesar el registro.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al registrar',
+          text: mensaje,
+          confirmButtonText: 'Aceptar'
+        });
+      }
     });
 
 
