@@ -153,7 +153,7 @@ export class TerminosCompraModal implements OnInit {
         user_id: "1"
       };
     });
-    
+
     this.sPayment.prebook(resultado).subscribe({
       next: (res: any) => {
         // Detectar si es array o solo objeto con mensaje
@@ -174,7 +174,7 @@ export class TerminosCompraModal implements OnInit {
           });
         } else {
           this.isLoading = false;
-          console.log('Registro Parcial',this.isLoading);
+          console.log('Registro Parcial', this.isLoading);
           // Algunos eventos nuevos
           const mensaje = `Se generaron registros nuevos para los eventos: ${eventosRegistradosNombres.join(', ')}.`;
           Swal.fire({
@@ -216,7 +216,7 @@ export class TerminosCompraModal implements OnInit {
         }
       },
       error: (err) => {
-        const mensaje = err?.error?.message || 'Ocurrió un error al procesar el registro.';
+        const mensaje = err?.error?.message || 'El correo ingresado ya cuenta con algún registro previo a alguno de los eventos solicitados.';
         Swal.fire({
           icon: 'error',
           title: 'Error al registrar',
@@ -225,11 +225,11 @@ export class TerminosCompraModal implements OnInit {
         }).then(() => {
           this.isLoading = false; // 🔹 Siempre quitar loader después del modal
         });
-       
+
       }
-      
+
     });
- this.isLoading = false;
+    this.isLoading = false;
   }
   validarCodigo(codigo: string) {
   }
