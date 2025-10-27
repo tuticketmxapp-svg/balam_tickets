@@ -4,13 +4,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InfoEvento } from '../../../shared/info-evento/info-evento';
 import { SHome } from '../../services/shome';
 import { EventoDetalle } from '../../models/evento-detalle.model';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { ResumenCompraModal } from './resumen-compra-modal';
 import { TerminosCompraModal } from '../seleccion-boletos/terminos-compra-modal';
 
 @Component({
   selector: 'app-pago-boleto',
   standalone: true,
-  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal],
+  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal, LottieComponent],
   templateUrl: './pago-boleto.html',
   styleUrls: ['./pago-boleto.css'],
 })
@@ -24,6 +25,11 @@ export class PagoBoleto implements OnInit {
   isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
   dataEventExtra: any = null;
+
+  // Opciones para la animación de Lottie
+  lottieOptions: AnimationOptions = {
+    path: '/assets/loader.json',
+  };
 
   constructor(
     private fb: FormBuilder,

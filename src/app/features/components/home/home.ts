@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faShareAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { SHome } from '../../services/shome';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { Evento } from '../../models/Ievento';
 import { Subscription } from 'rxjs';
 
@@ -17,7 +18,7 @@ interface Slide {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FontAwesomeModule, RouterModule],
+  imports: [FontAwesomeModule, RouterModule, LottieComponent],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
@@ -32,6 +33,11 @@ export class Home implements OnInit, OnDestroy {
   private intervalId?: ReturnType<typeof setInterval>;
   private eventosSubscription?: Subscription;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
+
+  // Opciones para la animación de Lottie
+  lottieOptions: AnimationOptions = {
+    path: '/assets/loader.json',
+  };
 
   constructor(private sHome: SHome) {}
 
