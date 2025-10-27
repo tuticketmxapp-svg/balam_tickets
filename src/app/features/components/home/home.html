@@ -1,3 +1,9 @@
+@if (isLoading) {
+<div class="loader-overlay">
+  <ng-lottie [options]="lottieOptions" [height]="'200px'" [width]="'200px'"></ng-lottie>
+</div>
+}
+
 <div class="carousel-container">
   @for (slide of slides; track slide.titulo; let i = $index) {
   <div class="carousel-slide" [class.active]="i === currentIndex" [style.backgroundImage]="'url(' + slide.imagen + ')'">

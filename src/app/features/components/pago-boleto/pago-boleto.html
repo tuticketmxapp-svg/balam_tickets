@@ -1,3 +1,9 @@
+@if (isLoading) {
+<div class="loader-overlay">
+  <ng-lottie [options]="lottieOptions" [height]="'200px'" [width]="'200px'"></ng-lottie>
+</div>
+}
+
 <div class="seleccion-container">
   <button class="regresar-btn" routerLink="/">Regresar</button>
   <div class="columnas-wrapper">
