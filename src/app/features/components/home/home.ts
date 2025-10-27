@@ -26,7 +26,7 @@ export class Home implements OnInit, OnDestroy {
   faHeart = faHeart;
 
   slides: Slide[] = [];
-  cargando = true;
+  isLoading = true;
   currentIndex = 0;
 
   private intervalId?: ReturnType<typeof setInterval>;
@@ -49,12 +49,12 @@ export class Home implements OnInit, OnDestroy {
             url_event: ''
           });
         }
-        this.cargando = false;
+        this.isLoading = false;
         this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
       },
       error: (error) => {
         console.error('Error al obtener los eventos:', error);
-        this.cargando = false;
+        this.isLoading = false;
         // Opcional: mostrar un slide de error
         this.slides = [{
           titulo: 'Error',

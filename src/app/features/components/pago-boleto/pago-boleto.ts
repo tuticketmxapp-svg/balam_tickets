@@ -20,6 +20,7 @@ export class PagoBoleto implements OnInit {
   evento: EventoDetalle | null = null; // Propiedad para almacenar los datos del evento
   dataCliente: any;
   isResumenModalVisible = false;
+  isLoading = false;
   isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
   dataEventExtra: any = null;
@@ -60,14 +61,17 @@ export class PagoBoleto implements OnInit {
   ngOnInit(): void {
     const urlEvent = this.route.snapshot.paramMap.get('url_event');
     if (urlEvent) {
+      this.isLoading = true; // Mostramos el loader
       this.sHome.getEventoById(urlEvent).subscribe({
         next: (data) => {
           this.evento = data;
+          this.isLoading = false; // Ocultamos el loader
           this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
         },
         error: (err) => {
           console.error('Error al cargar el evento en la página de pago', err);
           this.router.navigate(['/']); // Redirigir a home si hay un error
+          this.isLoading = false; // Ocultamos el loader en caso de error
         },
       });
     }

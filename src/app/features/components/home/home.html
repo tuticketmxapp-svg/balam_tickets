@@ -1,3 +1,9 @@
+@if (isLoading) {
+<div class="loader-overlay">
+  <div class="loader-spinner"></div>
+</div>
+}
+
 <div class="carousel-container">
   @for (slide of slides; track slide.titulo; let i = $index) {
   <div class="carousel-slide" [class.active]="i === currentIndex" [style.backgroundImage]="'url(' + slide.imagen + ')'">
