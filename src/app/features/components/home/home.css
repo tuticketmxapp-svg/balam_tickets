@@ -1,9 +1,12 @@
 .carousel-container {
   position: relative;
   width: 100%;
-  height: 700px; /* Altura ajustable */
-  color: white; /* Color de texto blanco para contraste */
-  overflow: hidden; /* Oculta las diapositivas que no están activas */
+  height: 700px;
+  /* Altura ajustable */
+  color: white;
+  /* Color de texto blanco para contraste */
+  overflow: hidden;
+  /* Oculta las diapositivas que no están activas */
 }
 
 .carousel-slide {
@@ -36,14 +39,17 @@
   height: 100%;
   /* Degradado de azul semitransparente a transparente */
   background: linear-gradient(to right, rgba(0, 21, 41, 0.9) 0%, rgba(0, 21, 41, 0.1) 70%);
-  z-index: 3; /* Por encima de la imagen pero debajo del contenido */
+  z-index: 3;
+  /* Por encima de la imagen pero debajo del contenido */
 }
 
 /* Contenedor para toda la información, para centrarla y posicionarla */
 .banner-content-wrapper {
-  position: relative; /* Para que esté por encima del overlay */
+  position: relative;
+  /* Para que esté por encima del overlay */
   z-index: 4;
-  padding-left: 5%; /* Espaciado desde el borde izquierdo */
+  padding-left: 5%;
+  /* Espaciado desde el borde izquierdo */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -51,41 +57,72 @@
 
 .banner-info {
   /* Se mueve el padding al wrapper para alinear todo el contenido */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para legibilidad */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  /* Sombra para legibilidad */
 }
 
 .banner-info h1 {
-  font-size: 4rem; /* Tamaño de fuente grande para el título */
+  font-size: 4rem;
+  /* Tamaño de fuente grande para el título */
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .banner-info p {
-  font-size: 1.5rem; /* Tamaño de fuente para la información */
+  font-size: 1.5rem;
+  /* Tamaño de fuente para la información */
   margin: 0.5rem 0;
+}
+
+@media (max-width: 576px) {
+
+  .banner-info {
+    /* Se mueve el padding al wrapper para alinear todo el contenido */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    /* Sombra para legibilidad */
+  }
+
+  .banner-info h1 {
+    font-size: 2rem;
+    /* Tamaño de fuente grande para el título */
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .banner-info p {
+    font-size: 1rem;
+    /* Tamaño de fuente para la información */
+    margin: 0.5rem 0;
+  }
 }
 
 /* Contenedor para los botones del banner */
 .banner-buttons {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinea los elementos a la izquierda */
-  margin-top: 2rem; /* Espacio entre el texto y los botones */
+  align-items: flex-start;
+  /* Alinea los elementos a la izquierda */
+  margin-top: 2rem;
+  /* Espacio entre el texto y los botones */
 }
 
 /* Contenedor para los botones de íconos */
 .icon-buttons {
   display: flex;
-  gap: 15px; /* Espacio entre los íconos */
-  margin-bottom: 20px; /* Espacio hacia el botón de comprar */
+  gap: 15px;
+  /* Espacio entre los íconos */
+  margin-bottom: 20px;
+  /* Espacio hacia el botón de comprar */
 }
 
 /* Estilo para los botones redondos de ícono */
 .icon-btn {
   width: 50px;
   height: 50px;
-  border-radius: 50%; /* Círculo perfecto */
-  background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  border-radius: 50%;
+  /* Círculo perfecto */
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Fondo semitransparente */
   border: 1px solid white;
   color: white;
   font-size: 1.5rem;
@@ -102,7 +139,8 @@
 
 /* Estilo para el botón principal de compra */
 .buy-tickets-btn {
-  background-color: #F27F1B; /* Tono naranja */
+  background-color: #F27F1B;
+  /* Tono naranja */
   color: white;
   border: none;
   padding: 15px 30px;
@@ -115,7 +153,8 @@
 }
 
 .buy-tickets-btn:hover {
-  background-color: #d87118; /* Naranja un poco más oscuro al pasar el mouse */
+  background-color: #d87118;
+  /* Naranja un poco más oscuro al pasar el mouse */
 }
 
 /* Estilos para los controles del carrusel */
@@ -198,7 +237,8 @@
 
 /* Sección para el filtro de eventos */
 .events-filter-section {
-  background-color: #F27F1B; /* Mismo naranja que el botón de compra */
+  background-color: #F27F1B;
+  /* Mismo naranja que el botón de compra */
   width: 100%;
   height: 200px;
   display: flex;
@@ -218,7 +258,8 @@
 
 .filter-buttons {
   display: flex;
-  gap: 20px; /* Espacio entre botones */
+  gap: 20px;
+  /* Espacio entre botones */
 }
 
 .filter-btn {
@@ -226,7 +267,8 @@
   border: 1px solid white;
   color: white;
   padding: 10px 25px;
-  border-radius: 20px; /* Bordes redondeados */
+  border-radius: 20px;
+  /* Bordes redondeados */
   cursor: pointer;
   font-size: 2rem;
   transition: background-color 0.3s;
@@ -245,9 +287,11 @@
   transition: background-color 0.3s;
 }
 
-.indicator-dot.active, .indicator-dot:hover {
+.indicator-dot.active,
+.indicator-dot:hover {
   background-color: white;
 }
+
 /* Estilos para el Loader Overlay */
 .loader-overlay {
   position: fixed;
