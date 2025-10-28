@@ -228,7 +228,7 @@
   padding: 10px 25px;
   border-radius: 20px; /* Bordes redondeados */
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 2rem;
   transition: background-color 0.3s;
 }
 

@@ -201,7 +201,13 @@ export class TerminosCompraModal implements OnInit {
               };
               this.sPayment.validarCodigo(payload).subscribe({
                 next: (res) => {
-                  Swal.fire(res.success ? 'Éxito' : 'Error', res.message, res.success ? 'success' : 'error');
+                  Swal.fire(
+                    res.success ? 'Éxito' : 'Error',
+                    res.success
+                      ? 'Registro exitoso. Revisa tu bandeja de entrada, correo no deseado o Spam, para recibir tu registro al evento o eventos que seleccionaste.'
+                      : res.message,
+                    res.success ? 'success' : 'error'
+                  );
                   this.router.navigate(['/']);
                 },
                 error: () => {
