@@ -225,7 +225,7 @@ export class TerminosCompraModal implements OnInit {
         const mensaje = err?.error?.message || 'El correo ingresado ya cuenta con algún registro previo a alguno de los eventos solicitados.';
         Swal.fire({
           icon: 'error',
-          title: 'Error al registrar',
+          title: 'Correo registrado previamente',
           text: mensaje,
           confirmButtonText: 'Aceptar'
         }).then(() => {
