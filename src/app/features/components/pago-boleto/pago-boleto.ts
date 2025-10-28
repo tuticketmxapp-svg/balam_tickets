@@ -25,7 +25,7 @@ export class PagoBoleto implements OnInit {
   isTerminosModalVisible = false;
   private cdr = inject(ChangeDetectorRef); // Inyectamos el ChangeDetectorRef
   dataEventExtra: any = null;
-
+  habilitadoPorHora = false;
   // Opciones para la animación de Lottie
   lottieOptions: AnimationOptions = {
     path: '/assets/loader.json',
@@ -81,8 +81,16 @@ export class PagoBoleto implements OnInit {
         },
       });
     }
+     this.verificarHora();
   }
+verificarHora() {
+    const ahora = new Date();
+    const hoy9am = new Date();
+    hoy9am.setHours(9, 0, 0, 0); // hoy a las 9:00 am
 
+    // Si la hora actual es igual o después de las 9 am, habilita
+    this.habilitadoPorHora = ahora >= hoy9am;
+  }
   // ... resto de tu lógica para el formulario
   onSubmit() {
     // this.submitted = true;

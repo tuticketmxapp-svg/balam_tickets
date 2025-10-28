@@ -165,7 +165,9 @@
               }
             </div> 
           </div>-->
-          <button type="submit" class="pagar-btn-form"  [disabled]="pagoForm.invalid">Registrate gratis</button>
+          <button type="submit" class="pagar-btn-form" [disabled]="pagoForm.invalid || !habilitadoPorHora">
+            Registrate gratis
+          </button>
           <!-- <p>Tus pagos se realizaran de forma segura con encriptación de 26 bits</p> -->
         </form>
       </div>
@@ -174,16 +176,13 @@
 </div>
 
 <!-- Modal de Resumen de Compra -->
-<app-resumen-compra-modal
-  [isVisible]="isResumenModalVisible"
-  (datosEventosExtra)="recibirDataEventExtra($event)"
-  [evento]="evento"
-  [dataCliente]="pagoForm.getRawValue()"
-  (closeModal)="closeResumenModal()"
+<app-resumen-compra-modal [isVisible]="isResumenModalVisible" (datosEventosExtra)="recibirDataEventExtra($event)"
+  [evento]="evento" [dataCliente]="pagoForm.getRawValue()" (closeModal)="closeResumenModal()"
   (confirm)="handleConfirmAndOpenTerms()">
 </app-resumen-compra-modal>
 
 
 <!-- Modal de Términos y Condiciones -->
-<app-terminos-compra-modal [isVisible]="isTerminosModalVisible" [evento]="evento" [dataCliente]="pagoForm.getRawValue()" [dataEventExtra]="dataEventExtra" (closeModal)="closeTerminosModal()">
+<app-terminos-compra-modal [isVisible]="isTerminosModalVisible" [evento]="evento" [dataCliente]="pagoForm.getRawValue()"
+  [dataEventExtra]="dataEventExtra" (closeModal)="closeTerminosModal()">
 </app-terminos-compra-modal>
