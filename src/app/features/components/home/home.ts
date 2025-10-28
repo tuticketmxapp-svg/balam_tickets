@@ -51,7 +51,7 @@ export class Home implements OnInit, OnDestroy {
             titulo: 'Próximamente',
             fecha: 'Nuevos eventos muy pronto',
             lugar: 'Mantente al pendiente',
-            imagen: 'assets/brincos2.png',
+            imagen: 'assets/2-2.jpg',
             url_event: ''
           });
         }
@@ -66,7 +66,7 @@ export class Home implements OnInit, OnDestroy {
           titulo: 'Error',
           fecha: 'No se pudieron cargar los eventos',
           lugar: 'Intenta de nuevo más tarde',
-          imagen: 'assets/brincos2.png',
+          imagen: 'assets/2-2.jpg',
           url_event: ''
         }];
         this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
