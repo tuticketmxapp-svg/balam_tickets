@@ -77,21 +77,17 @@
 @media (max-width: 576px) {
 
   .banner-info {
-    /* Se mueve el padding al wrapper para alinear todo el contenido */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    /* Sombra para legibilidad */
   }
 
   .banner-info h1 {
     font-size: 2rem;
-    /* Tamaño de fuente grande para el título */
     font-weight: bold;
     margin-bottom: 1rem;
   }
 
   .banner-info p {
     font-size: 1rem;
-    /* Tamaño de fuente para la información */
     margin: 0.5rem 0;
   }
 }
