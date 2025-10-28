@@ -48,10 +48,10 @@ export class Home implements OnInit, OnDestroy {
         this.slides = eventos.map(this.transformarEventoASlide);
         if (this.slides.length === 0) {
           this.slides.push({
-            titulo: 'Próximamente',
-            fecha: 'Nuevos eventos muy pronto',
-            lugar: 'Mantente al pendiente',
-            imagen: 'assets/2-2.jpg',
+            titulo: 'Los registros digitales ya se encuentran agotados',
+            fecha: 'Los registros restantes se habilitarán de forma presencial<br>en los días previos al evento, en las taquillas oficiales de la Feria Chiapas 2025.',
+            lugar: '',
+            imagen: 'assets/BANNER.png',
             url_event: ''
           });
         }
@@ -66,7 +66,7 @@ export class Home implements OnInit, OnDestroy {
           titulo: 'Error',
           fecha: 'No se pudieron cargar los eventos',
           lugar: 'Intenta de nuevo más tarde',
-          imagen: 'assets/2-2.jpg',
+          imagen: 'assets/BANNER.png',
           url_event: ''
         }];
         this.cdr.markForCheck(); // Le decimos a Angular que revise los cambios
