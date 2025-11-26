@@ -86,9 +86,9 @@ export class PagoBoleto implements OnInit {
 verificarHora() {
     const ahora = new Date();
     const hoy9am = new Date();
-    hoy9am.setHours(9, 0, 0, 0); // hoy a las 9:00 am
+    hoy9am.setHours(9, 0, 0, 0); 
 
-    // Si la hora actual es igual o después de las 9 am, habilita
+    
     this.habilitadoPorHora = ahora >= hoy9am;
   }
   // ... resto de tu lógica para el formulario
