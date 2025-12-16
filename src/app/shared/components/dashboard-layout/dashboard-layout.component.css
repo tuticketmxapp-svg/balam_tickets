@@ -1,0 +1,11 @@
+.dashboard-container {
+  display: flex;
+  flex: 1; /* Ocupa el espacio disponible dentro de .content de app.html */
+  height: 100%;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
