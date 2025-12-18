@@ -1,0 +1,73 @@
+/* Estilo principal del contenedor de la barra lateral */
+.sidebar-container {
+  position: fixed; /* Fija la barra lateral en la pantalla */
+  left: 0; /* La alinea a la izquierda */
+  background-color: #ffffff; /* Fondo blanco */
+  color: #333333; /* Texto oscuro para contraste */
+  width: 250px; /* Ancho fijo para la barra lateral */
+  height: 100vh; /* Ocupa toda la altura de la vista */
+  padding-top: 10px; /* Aumentamos el padding para que el contenido no quede oculto por el navbar */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e0e0e0; /* Borde gris claro para separar del contenido */
+  z-index: 5; /* Reducimos el z-index para que el navbar (con z-index mayor) se ponga por encima */
+}
+
+/* Estilos para la lista de navegación */
+.sidebar-container nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre los elementos del menú */
+}
+
+/* Estilos para cada elemento de la lista */
+.sidebar-container nav li {
+  margin: 0;
+}
+
+/* Estilos para los enlaces de navegación */
+.sidebar-container nav a {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre el ícono y el texto */
+  padding: 12px 20px;
+  color: #333333;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  border-left: 3px solid transparent; /* Borde para el estado activo */
+  transition: all 0.3s ease;
+}
+
+/* Estilo para los íconos */
+.sidebar-container nav a i {
+  width: 20px; /* Ancho fijo para alinear los íconos */
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Efecto hover sobre los enlaces */
+.sidebar-container nav a:hover {
+  background-color: #f5f5f5; /* Un fondo gris muy claro al pasar el mouse */
+  color: #000000;
+}
+
+/* Estilo para el enlace activo */
+.sidebar-container nav a.active {
+  background-color: rgba(242, 127, 27, 0.1); /* Fondo naranja muy sutil */
+  color: #F27F1B; /* Color naranja corporativo */
+  border-left-color: #F27F1B; /* Borde naranja que indica la selección */
+  font-weight: 600;
+}
+
+/* Pequeño ajuste para que el color del ícono también cambie en el estado activo */
+.sidebar-container nav a.active i {
+  color: #F27F1B;
+}
+
+/* Asegúrate de tener Font Awesome o similar para los íconos */
+/* Puedes añadir esto en tu index.html: */
+/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> */

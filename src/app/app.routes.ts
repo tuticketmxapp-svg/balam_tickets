@@ -8,6 +8,8 @@ import { Signup } from './features/components/signup/signup';
 import { DashboardLayoutComponent } from './shared/components/dashboard-layout/dashboard-layout.component';
 import { Perfil } from './features/components/perfil/perfil';
 import { MisCompras } from './features/components/mis-compras/mis-compras';
+import { Ayuda } from './features/components/ayuda/ayuda';
+import { MisEventos } from './features/components/mis-eventos/mis-eventos';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,14 @@ export const routes: Routes = [
       {
         path: 'mis-compras', // URL: /dashboard/mis-compras
         component: MisCompras,
+      },
+      {
+        path: 'ayuda', // URL: /dashboard/ayuda
+        component: Ayuda,
+      },
+      {
+        path: 'mis-eventos', // URL: /dashboard/mis-eventos
+        component: MisEventos,
       },
       {
         path: '', // 2. Redirige /dashboard a /dashboard/perfil por defecto
