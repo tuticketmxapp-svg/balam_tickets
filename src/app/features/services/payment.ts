@@ -18,7 +18,7 @@ export class SPayment {
 
         return this.http.post<any>(`${environment.apiV1}salesOpenPay`, data, { headers })
             .pipe(
-                catchError(this.handleError) 
+                catchError(this.handleError)
             );
     }
     private handleError = (error: any) => {
@@ -36,5 +36,11 @@ export class SPayment {
                     return throwError(() => err);
                 })
             );
+    }
+    setSale(data: any, holdToken: string) {
+        localStorage.setItem('setSale-' + holdToken, JSON.stringify(data));
+    }
+    setEvent(data: any, holdToken: string) {
+        localStorage.setItem('setEvent-' + holdToken, JSON.stringify(data));
     }
 }

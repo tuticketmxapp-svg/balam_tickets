@@ -1,5 +1,9 @@
+import { MomentInput } from "moment";
+
 // Interfaz para el objeto detallado de un evento
 export interface EventoDetalle {
+  online_sale_to: MomentInput;
+  online_sale_from: MomentInput;
   id: number;
   name: string;
   numjuego: number | null;
@@ -38,6 +42,8 @@ export interface EventoDetalle {
 
 // Interfaz para las zonas de precio del evento detallado
 export interface ZonePriceDetalle {
+  selected: any;
+  ticket_office: number;
   id: number;
   name: string;
   description: string;

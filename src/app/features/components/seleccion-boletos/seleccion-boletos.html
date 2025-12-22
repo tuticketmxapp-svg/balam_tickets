@@ -19,23 +19,15 @@
             <!-- <p>{{ boleto.subtitulo }}</p> -->
             <span class="precio">{{
               boleto.price | currency : 'MXN' : 'symbol-narrow' : '1.2-2'
-            }}</span>
+              }}</span>
             <span class="cargos">+ cargos</span>
           </div>
           <div class="contador">
-            <button
-              class="contador-btn"
-              (click)="decrementar(boleto)"
-              [disabled]="boleto.current_stock === 0"
-            >
+            <button class="contador-btn" (click)="decrementar(boleto)" [disabled]="boleto.current_stock === 0">
               -
             </button>
-            <span class="cantidad">{{ boleto.current_stock }}</span>
-            <button
-              class="contador-btn"
-              (click)="incrementar(boleto)"
-              [disabled]="boleto.current_stock === 10"
-            >
+            <span class="cantidad">{{ boleto.selected }}</span>
+            <button class="contador-btn" (click)="incrementar(boleto)" [disabled]="boleto.current_stock === 10">
               +
             </button>
           </div>
@@ -61,13 +53,10 @@
 
       <!-- Botón de pago y sección de información adicional -->
       <div class="pago-info-container">
-        <button
-          class="pagar-btn"
-          [disabled]="totalBoletosSeleccionados === 0"
-          [routerLink]="['/pagoBoleto', evento?.url_event]"
-        >
+        <button class="pagar-btn" [disabled]="selectedObjects.length == 0" (click)="goToSale()">
           Pagar boletos
         </button>
+
 
         <div class="info-adicional">
           <p>{{ evento?.long_description }}</p>
