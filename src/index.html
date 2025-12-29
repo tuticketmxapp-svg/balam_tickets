@@ -1,13 +1,23 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>BalamTickets</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+   <script type="text/javascript" src="https://resources.openpay.mx/lib/openpay-js/1.2.38/openpay.v1.min.js"></script>
+  <script type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
 </head>
+
 <body>
   <app-root></app-root>
+  <script>
+    OpenPay.setId('mfva2emlrvqchkglt4zj');
+    OpenPay.setApiKey('sk_54ea70f38caa44c4a1dfe33940f45b1d');
+    OpenPay.setSandboxMode(true); // Ajustar según tu entorno (sandbox o producción)
+  </script>
 </body>
+
 </html>

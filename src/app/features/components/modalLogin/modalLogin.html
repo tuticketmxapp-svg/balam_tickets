@@ -1,0 +1,127 @@
+<!-- Overlay -->
+<div
+  *ngIf="visible"
+  class="fixed inset-0 bg-black/60 z-40"
+  (click)="closeModal()"
+></div>
+
+<!-- Modal -->
+<div
+  *ngIf="visible"
+  class="fixed inset-0 z-50 flex items-center justify-center px-4"
+  (click)="$event.stopPropagation()"
+>
+  <div class="bg-white rounded-2xl w-full max-w-md p-6 relative">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="bienvenido text-xl font-bold text-center w-full">
+        Inicia sesión
+      </h1>
+
+      <button
+        class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="space-y-4">
+
+      <label class="text-sm text-gray-600">
+        ¿No tienes cuenta aún?
+        <a
+          class="registro text-blue-600 font-semibold cursor-pointer"
+          (click)="goToRegistro()"
+        >
+          Regístrate aquí
+        </a>
+      </label>
+
+      <p class="administrar text-sm text-gray-600">
+        Para comprar tus tickets, es necesario iniciar sesión.
+        Crear un usuario te ofrece una experiencia de compra más segura y personalizada.
+      </p>
+
+      <!-- Email -->
+      <div>
+        <p class="text-label mb-1">Correo electrónico</p>
+        <input
+          [(ngModel)]="userLogin.email"
+          type="email"
+          class="inputs-form w-full"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="relative">
+        <p class="text-label mb-1">Contraseña</p>
+
+        <input
+          [(ngModel)]="userLogin.password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="inputs-form w-full pr-10"
+        />
+
+        <span
+          class="absolute right-3 top-9 cursor-pointer text-gray-500"
+          (click)="togglePassword()"
+        >
+          <i [ngClass]="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+        </span>
+      </div>
+
+      <!-- Remember -->
+      <div class="flex items-center justify-between text-sm">
+        <label class="flex items-center gap-2 text-gray-600">
+          <input type="checkbox" checked />
+          Recuérdame
+        </label>
+
+        <!--
+        <a class="olvidaste text-blue-600 cursor-pointer"
+           (click)="goToPassword()">
+           ¿Olvidaste tu contraseña?
+        </a>
+        -->
+      </div>
+
+      <!-- Login -->
+      <button
+        class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition"
+        (click)="login()"
+      >
+        Iniciar sesión para continuar
+      </button>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3">
+        <div class="flex-1 h-px bg-gray-300"></div>
+        <span class="text-sm text-gray-500">o</span>
+        <div class="flex-1 h-px bg-gray-300"></div>
+      </div>
+
+      <!-- Google -->
+      <button
+        class="w-full border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 transition"
+        (click)="signInWithGoogle()"
+      >
+        <img src="./assets/img/google.svg" alt="Google" class="w-5 h-5" />
+        Tu cuenta Google
+      </button>
+
+      <!-- Facebook (opcional) -->
+      <!--
+      <button
+        class="w-full border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 transition"
+        (click)="iniciarSesionConFacebook()"
+      >
+        <img src="./assets/img/facebook.svg" class="w-5 h-5" />
+        Facebook
+      </button>
+      -->
+    </div>
+  </div>
+</div>

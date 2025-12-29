@@ -1,13 +1,12 @@
-
-@if (isVisible) {
-  @if (isLoading) {
+@if (visible) {
+<!-- @if (isLoading) {
 <div class="loader-overlay">
   <ng-lottie [options]="lottieOptions" [height]="'200px'" [width]="'200px'"></ng-lottie>
 </div>
-}
-<div class="modal-overlay" (click)="close()">
+} -->
+<div class="modal-overlay" (click)="cerrar()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="modal-close" (click)="close()">&times;</button>
+    <button class="modal-close" (click)="cerrar()">&times;</button>
     <div class="modal-header">
 
     </div>
@@ -29,18 +28,14 @@
           uso que alguna persona pueda darle al mismo.</li>
       </ol>
       <div class="modal-actions">
-        <button class="modal-action-btn" (click)="terminos()">Confirmar</button>
+        <button class="btn primary" (click)="aceptarTerminos()">Aceptar</button>
       </div>
     </div>
   </div>
-  
+
 </div>
 
 }
-<app-verificacion-codigo-modal
-  *ngIf="mostrarModalVerificacion"
-  [isVisible]="mostrarModalVerificacion"
-  [mensaje]="mensaje"
-  (close)="mostrarModalVerificacion = false"
-  (validarCodigo)="validarCodigo($event)">
-</app-verificacion-codigo-modal>
+<!-- <app-verificacion-codigo-modal *ngIf="mostrarModalVerificacion" [isVisible]="mostrarModalVerificacion"
+  [mensaje]="mensaje" (close)="mostrarModalVerificacion = false" (validarCodigo)="validarCodigo($event)">
+</app-verificacion-codigo-modal> -->

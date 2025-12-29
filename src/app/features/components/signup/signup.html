@@ -1,7 +1,6 @@
 <div class="flex items-center justify-center min-h-[90vh] px-4 py-8">
   <div
-    class="w-full max-w-4xl p-8 space-y-8 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-2xl"
-  >
+    class="w-full max-w-4xl p-8 space-y-8 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-2xl">
     <!-- Header -->
     <div class="text-center">
       <h2 class="text-3xl font-bold mb-2">Crear Cuenta</h2>
@@ -11,234 +10,136 @@
     </div>
 
     <!-- Form -->
-    <form class="space-y-6">
-      <!-- Section 1: Personal Information -->
+    <form [formGroup]="formulario" (ngSubmit)="registro()" class="space-y-6">
+
+      <!-- Información Personal -->
       <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold mb-4">
-          Información Personal
-        </h3>
+        <h3 class="text-xl font-semibold mb-4">Información Personal</h3>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Name -->
           <div class="md:col-span-2">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Nombre completo</label
-            >
-            <input
-              type="text"
-              id="name"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="Juan Pérez"
-              required
-            />
+            <label class="block mb-2 text-sm font-medium text-gray-500">
+              Nombre completo
+            </label>
+            <input type="text" formControlName="name" class="bg-white/5 border rounded-lg w-full p-3 transition-colors"
+              [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('name')?.invalid &&
+      formulario.get('name')?.touched
+  }" />
           </div>
 
-          <!-- Date of Birth -->
           <div>
-            <label
-              for="dob"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Fecha de nacimiento</label
-            >
-            <input
-              type="date"
-              id="dob"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              required
-            />
+            <label class="block mb-2 text-sm font-medium text-gray-500">
+              Fecha de nacimiento
+            </label>
+            <input type="date" formControlName="birth_date"
+              class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('birth_date')?.invalid &&
+      formulario.get('birth_date')?.touched
+  }" />
           </div>
 
-          <!-- Phone -->
           <div>
-            <label
-              for="phone"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Teléfono</label
-            >
-            <input
-              type="tel"
-              id="phone"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="+52 55 1234 5678"
-              required
-            />
+            <label class="block mb-2 text-sm font-medium text-gray-500">
+              Teléfono
+            </label>
+            <input type="tel" formControlName="phone" class="bg-white/5 border rounded-lg w-full p-3 transition-colors"
+              [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('phone')?.invalid &&
+      formulario.get('phone')?.touched
+  }" />
           </div>
 
-          <!-- Email -->
           <div class="md:col-span-2">
-            <label
-              for="email"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Correo electrónico</label
-            >
-            <input
-              type="email"
-              id="email"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="nombre@ejemplo.com"
-              required
-            />
+            <label class="block mb-2 text-sm font-medium text-gray-500">
+              Correo electrónico
+            </label>
+            <input type="email" formControlName="email"
+              class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('email')?.invalid &&
+      formulario.get('email')?.touched
+  }" />
           </div>
         </div>
       </div>
 
-      <!-- Section 2: Address -->
+      <!-- Dirección -->
       <div class="border-b pb-6">
         <h3 class="text-xl font-semibold mb-4">Dirección</h3>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Country -->
-          <div>
-            <label
-              for="country"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >País</label
-            >
-            <input
-              type="text"
-              id="country"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="México"
-              required
-            />
-          </div>
+          <input class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('country')?.invalid &&
+      formulario.get('country')?.touched
+  }" formControlName="country" placeholder="País" />
+          <input class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('state')?.invalid &&
+      formulario.get('state')?.touched
+  }" formControlName="state" placeholder="Estado" />
+          <input class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('city')?.invalid &&
+      formulario.get('city')?.touched
+  }" formControlName="city" placeholder="Ciudad" />
+          <input class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('zip')?.invalid &&
+      formulario.get('zip')?.touched
+  }" formControlName="zip" placeholder="CP" />
 
-          <!-- State -->
-          <div>
-            <label
-              for="state"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Estado</label
-            >
-            <input
-              type="text"
-              id="state"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="CDMX"
-              required
-            />
-          </div>
-
-          <!-- City -->
-          <div>
-            <label
-              for="city"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Ciudad</label
-            >
-            <input
-              type="text"
-              id="city"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="Ciudad de México"
-              required
-            />
-          </div>
-
-          <!-- ZIP Code -->
-          <div>
-            <label
-              for="zip"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Código Postal</label
-            >
-            <input
-              type="text"
-              id="zip"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="01234"
-              required
-            />
-          </div>
-
-          <!-- Street -->
           <div class="md:col-span-2 grid grid-cols-3 gap-6">
-            <div class="col-span-2">
-              <label
-                for="street"
-                class="block mb-2 text-sm font-medium text-gray-500"
-                >Calle</label
-              >
-              <input
-                type="text"
-                id="street"
-                class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-                placeholder="Av. Reforma"
-                required
-              />
-            </div>
-            <div>
-              <label
-                for="number"
-                class="block mb-2 text-sm font-medium text-gray-500"
-                >Número</label
-              >
-              <input
-                type="text"
-                id="number"
-                class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-                placeholder="123"
-                required
-              />
-            </div>
+            <input class="col-span-2 bg-white/5 border rounded-lg p-3" formControlName="street" placeholder="Calle" />
+            <input class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('number')?.invalid &&
+      formulario.get('number')?.touched
+  }" formControlName="number" placeholder="Número" />
           </div>
         </div>
       </div>
 
-      <!-- Section 3: Security -->
+      <!-- Seguridad -->
       <div>
         <h3 class="text-xl font-semibold mb-4">Seguridad</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Password -->
-          <div>
-            <label
-              for="password"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Contraseña</label
-            >
-            <input
-              type="password"
-              id="password"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="••••••••"
-              required
-            />
-          </div>
 
-          <!-- Confirm Password -->
-          <div>
-            <label
-              for="confirm-password"
-              class="block mb-2 text-sm font-medium text-gray-500"
-              >Confirmar Contraseña</label
-            >
-            <input
-              type="password"
-              id="confirm-password"
-              class="bg-white/5 border text-sm rounded-lg focus:ring-[#F27F1B] focus:border-[#F27F1B] block w-full p-3 placeholder-gray-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="password" formControlName="password" placeholder="Contraseña"
+            class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('password')?.invalid &&
+      formulario.get('password')?.touched
+  }" />
+
+          <input type="password" formControlName="password_confirmation" placeholder="Confirmar contraseña"
+            class="bg-white/5 border rounded-lg w-full p-3 transition-colors" [ngClass]="{
+    'border-red-500 ring-2 ring-red-500/40':
+      formulario.get('password_confirmation')?.invalid &&
+      formulario.get('password_confirmation')?.touched
+  }" />
         </div>
+
+        <p *ngIf="formulario.errors?.['passwordMismatch'] && formulario.touched" class="text-red-400 text-sm mt-2">
+          Las contraseñas no coinciden
+        </p>
       </div>
 
-      <!-- Register Button -->
-      <button
-        type="submit"
-        class="w-full text-white bg-[#F27F1B] hover:bg-[#d87118] focus:ring-4 focus:outline-none focus:ring-orange-800 font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-orange-500/25 mt-6"
-      >
+      <!-- Botón -->
+      <button type="submit" class="w-full bg-[#F27F1B] hover:bg-[#d87118] text-white rounded-lg py-3 transition">
         Registrarse
       </button>
 
-      <!-- Login Link -->
-      <div class="text-sm font-medium text-gray-300 text-center">
+      <!-- Login -->
+      <div class="text-center text-sm text-gray-300">
         ¿Ya tienes una cuenta?
-        <a
-          routerLink="/login"
-          class="text-orange-300 hover:text-orange-200 hover:underline transition-colors ml-1"
-          >Inicia sesión aquí</a
-        >
+        <a routerLink="/login" class="text-orange-300 hover:underline">
+          Inicia sesión aquí
+        </a>
       </div>
     </form>
   </div>

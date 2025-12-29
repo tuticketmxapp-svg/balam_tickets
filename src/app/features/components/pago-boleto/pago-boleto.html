@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono</label>
-              <input type="tel" id="telefono" formControlName="telefono">
+              <input type="tel" id="telefono" formControlName="telefono" phoneNumber>
               @if (submitted && f['telefono'].errors) {
               <div class="error-msg">El teléfono es obligatorio.</div>
               }
@@ -79,7 +79,7 @@
           @if (pagoForm.get('metodoPago')?.value === 'Visa') {
           <div class="form-group">
             <label for="numeroTarjeta">Número de tarjeta</label>
-            <input type="text" id="numeroTarjeta" formControlName="numeroTarjeta">
+            <input type="text" id="numeroTarjeta" formControlName="numeroTarjeta" cardValidation>
             @if (submitted && f['numeroTarjeta'].errors) {
             <div class="error-msg">El número de tarjeta es obligatorio.</div>
             }
@@ -87,21 +87,21 @@
           <div class="form-row">
             <div class="form-group">
               <label for="mesExp">Mes (MM)</label>
-              <input type="text" id="mesExp" placeholder="MM" formControlName="mesExp">
+              <input type="text" id="mesExp" placeholder="MM" formControlName="mesExp" appTwoDigitInput>
               @if (submitted && f['mesExp'].errors) {
               <div class="error-msg">Obligatorio.</div>
               }
             </div>
             <div class="form-group">
               <label for="anoExp">Año (AA)</label>
-              <input type="text" id="anoExp" placeholder="AA" formControlName="anoExp">
+              <input type="text" id="anoExp" placeholder="AA" formControlName="anoExp" appTwoDigitInput>
               @if (submitted && f['anoExp'].errors) {
               <div class="error-msg">Obligatorio.</div>
               }
             </div>
             <div class="form-group">
               <label for="cvv">CVV / CVC</label>
-              <input type="text" id="cvv" formControlName="cvv">
+              <input type="text" id="cvv" formControlName="cvv" fourDigitInput>
               @if (submitted && f['cvv'].errors) {
               <div class="error-msg">Obligatorio.</div>
               }
@@ -175,6 +175,8 @@
 
 
 <!-- Modal de Términos y Condiciones -->
-<app-terminos-compra-modal [isVisible]="isTerminosModalVisible" [evento]="evento" [dataCliente]="pagoForm.getRawValue()"
-  [dataEventExtra]="dataEventExtra" (closeModal)="closeTerminosModal()">
-</app-terminos-compra-modal>
+<app-terminos-pay-modal
+  [visible]="isTerminosModalVisible"
+  [boleto]="boletoSeleccionado"
+  (close)="isTerminosModalVisible = false">
+</app-terminos-pay-modal>

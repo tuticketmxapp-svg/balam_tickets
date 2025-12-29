@@ -2,31 +2,27 @@
   <nav>
     <ul>
       <li>
-        <a
-          routerLink="/dashboard/mis-eventos"
-          routerLinkActive="active"
-          ><fa-icon [icon]="faTicket"></fa-icon><span>Mis Próximos eventos</span></a
-        >
+        <a routerLink="/dashboard/mis-eventos" routerLinkActive="active"><fa-icon [icon]="faTicket"></fa-icon><span>Mis
+            Próximos eventos</span></a>
       </li>
       <li>
-        <a routerLink="/dashboard/mis-compras" routerLinkActive="active"
-          ><fa-icon [icon]="faClockRotateLeft"></fa-icon><span>Mis Eventos Pasados</span></a
-        >
+        <a routerLink="/dashboard/mis-compras" routerLinkActive="active"><fa-icon
+            [icon]="faClockRotateLeft"></fa-icon><span>Mis Eventos Pasados</span></a>
       </li>
       <li>
-        <a routerLink="/dashboard/perfil" routerLinkActive="active"
-          ><fa-icon [icon]="faUser"></fa-icon><span>Mi Perfil</span></a
-        >
+        <a routerLink="/dashboard/perfil" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon><span>Mi
+            Perfil</span></a>
       </li>
       <li>
-        <a routerLink="/dashboard/ayuda" routerLinkActive="active"
-          ><fa-icon [icon]="faCircleQuestion"></fa-icon><span>Ayuda</span></a
-        >
+        <a routerLink="/dashboard/ayuda" routerLinkActive="active"><fa-icon
+            [icon]="faCircleQuestion"></fa-icon><span>Ayuda</span></a>
       </li>
       <li>
-        <a routerLinkActive="active"
-          ><fa-icon [icon]="faArrowLeft"></fa-icon><span>Cerrar sesión</span></a
-        >
+        <a routerLinkActive="active" (click)="cerrarSesion()" class="cursor-pointer flex items-center gap-2">
+          <fa-icon [icon]="faArrowLeft"></fa-icon>
+          <span>Cerrar sesión</span>
+        </a>
+
       </li>
     </ul>
   </nav>

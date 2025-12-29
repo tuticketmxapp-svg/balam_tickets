@@ -12,6 +12,11 @@ import moment from 'moment';
 import { CatalogosService } from '../../services/catalogos.service';
 import { ConektaService } from '../../services/conekta.service';
 import { EventoService } from '../../services/evento.service';
+import { FourDigitInputDirective } from '../../directives/fourDigitInput';
+import { TwoDigitInputDirective } from '../../directives/twoDigitInput';
+import { CardValidationDirective } from '../../directives/cardValidation.directives';
+import { PhoneNumberDirective } from '../../directives/phoneNumber.directives';
+import { LocalStorageService } from '../../services/UserDataService.service';
 moment.locale('es');
 
 type MetodoPagoConfig = {
@@ -28,12 +33,13 @@ type Pasarela =
   | 'OXXO';
 declare var OpenPay: any;
 interface Ticket {
+  promocode: string;
   type: string;
   type_id: number | null;
   zona: any;
   seat_io: string;
   cantidad: any;
-  subtotal: string;
+  subtotal: number;
   comision: number;
   fila: string;
   asiento: string;
@@ -48,7 +54,7 @@ interface Ticket {
 @Component({
   selector: 'app-pago-boleto',
   standalone: true,
-  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal, LottieComponent],
+  imports: [InfoEvento, RouterModule, ReactiveFormsModule, ResumenCompraModal, TerminosCompraModal, LottieComponent, FourDigitInputDirective, TwoDigitInputDirective, CardValidationDirective, PhoneNumberDirective],
   templateUrl: './pago-boleto.html',
   styleUrls: ['./pago-boleto.css'],
 })
@@ -191,10 +197,11 @@ export class PagoBoleto implements OnInit {
   validateCountry: boolean | undefined;
   validateState: boolean | undefined;
   validateCity: boolean | undefined;
-
+  boletoSeleccionado: any = null;
   fechaCompra = moment().format('DD MMM YYYY');
   checkDireccion = false;
   me: {
+    id: any;
     state: any;
     country: any; country_id: any;
   } | undefined;
@@ -207,8 +214,15 @@ export class PagoBoleto implements OnInit {
     private catalogosService: CatalogosService,
     private conektaService: ConektaService,
     private eventoService: EventoService,
+    private localStorageService: LocalStorageService,
+
 
   ) {
+    const userData = this.localStorageService.getItem('user_data');
+    if (userData) {
+      this.me = JSON.parse(userData);
+
+    }
     this.pagoForm = this.fb.group(
       {
         metodoPago: ['', Validators.required],
@@ -270,6 +284,7 @@ export class PagoBoleto implements OnInit {
     this.saleEvent = JSON.parse(localStorage.getItem('setEvent-' + this.holdToken) ?? 'null');
     this.verificarHora();
     this.saleParams.forEach((element: {
+      promocode: string;
       subtotalOxxo: any; category: string; label: string; price: string; comision: string; type: any; name: any; type_id: any; zone_id: any; cantidadArray: any; section: any; tipoMesa: any;
     }) => {
       let fila = '';
@@ -290,13 +305,14 @@ export class PagoBoleto implements OnInit {
       }
       this.total += parseFloat(element.price);
       this.totalComision += parseFloat(element.comision);
+      this.subtotal = this.totalComision + this.total;
       this.tickets.push({
         "type": element.type || element.name,
         "type_id": element.type_id || null,
         "zona": element.zone_id,
         "seat_io": element.label,
         "cantidad": element.cantidadArray,
-        "subtotal": element.price,
+        "subtotal": parseInt(element.price),
         "comision": parseInt(element.comision),
         "fila": fila,
         "asiento": asiento,
@@ -305,10 +321,44 @@ export class PagoBoleto implements OnInit {
         "section": element.section,
         "name": element.name,
         "tipoMesa": element.tipoMesa,
-        "subtotalOxxo": element.subtotalOxxo
+        "subtotalOxxo": element.subtotalOxxo,
+        "promocode": element.promocode
       });
     });
+    this.toggleSelection(this.optionsPay[0]);
+  }
+  calculaTotal() {
+    this.total = 0;
+    this.totalComision = 0;
+    this.tickets = [];
+    this.saleParams.forEach((element: { price: string; comision: string; type: any; type_id: any; zone_id: any; label: any; section: any; promocode: any; }) => {
+      this.total += parseFloat(element.price);
+      this.totalComision += parseFloat(element.comision);
+      this.tickets.push({
+        type: element.type || "",
+        type_id: element.type_id || null,
+        zona: element.zone_id,
+        seat_io: element.label,
+        cantidad: 1,
+        subtotal: Number(element.price),
+        comision: Number(element.comision),
+        section: element.section,
+        promocode: element.promocode || '',
+        fila: '',
+        asiento: '',
+        category: '',
+        label: '',
+        name: undefined,
+        tipoMesa: undefined,
+        subtotalOxxo: undefined
+      });
 
+
+    });
+    this.subtotal = this.totalComision + this.total;
+    let result = this.addComisionConIVA(this.pasarela, 1, this.subtotal);
+    this.cargoBancario = result.comision;
+    this.totalCobrar = result.comision + result.monto;
   }
   verificarHora() {
     const ahora = new Date();
@@ -327,7 +377,6 @@ export class PagoBoleto implements OnInit {
     }
 
     const metodo = this.pagoForm.get('metodoPago')?.value;
-
     switch (metodo) {
       case 'Visa':
         this.pagarConTarjeta();
@@ -386,14 +435,16 @@ export class PagoBoleto implements OnInit {
     )
   }
   pagarConTarjeta() {
+    this.deviceDataId = OpenPay.deviceData.setup("processCard");
+
     const formObject = {
-      card_number: this.cardNumber,
+      card_number: this.pagoForm.value.numeroTarjeta,
       holder_name: this.pagoForm.value.nombreTitular,
-      expiration_year: this.expirationYear,
-      expiration_month: this.expirationMonth,
-      cvv2: this.cvv2,
+      expiration_year: this.pagoForm.value.anoExp,
+      expiration_month: this.pagoForm.value.mesExp,
+      cvv2: this.pagoForm.value.cvv,
       address: {
-        city: this.city,
+        city: this.pagoForm.value.ciudad,
         line3: '.',
         postal_code: this.pagoForm.value.codigoPostal,
         line1: this.pagoForm.value.calle,
@@ -402,7 +453,7 @@ export class PagoBoleto implements OnInit {
         country_code: this.countryCode,
       }
     };
-    if (!this.validarNumeroTarjeta(this.cardNumber)) {
+    if (!this.validarNumeroTarjeta(this.pagoForm.value.numeroTarjeta)) {
       const el = document.getElementById('cardNumber');
 
       if (el) {
@@ -419,7 +470,7 @@ export class PagoBoleto implements OnInit {
       this.validateCardNumber = false;
 
     }
-    if (!this.validarCVC(this.cvv2, this.cardNumber)) {
+    if (!this.validarCVC(this.pagoForm.value.cvv, this.pagoForm.value.numeroTarjeta)) {
       const el = document.getElementById('cvv2');
       if (el) {
         el.classList.add('input-error');
@@ -433,16 +484,16 @@ export class PagoBoleto implements OnInit {
       }
       this.validateCvv2 = false;
     }
-    // if (this.me == null || this.me == undefined) {
-    //   this.swal.info('Favor de ingresar a su cuenta para proceder con la compra');
-    //   return;
+    if (this.me == null || this.me == undefined) {
+      //this.swal.info('Favor de ingresar a su cuenta para proceder con la compra');
+      return;
 
-    // }
-    // if (this.saleEvent.mode == 'mifel') {
-    //   this.tickets.forEach(ticket => {
-    //     ticket.promocode = 'PREVENTA-MIFEL'
-    //   });
-    // }
+    }
+    if (this.saleEvent.mode == 'mifel') {
+      this.tickets.forEach(ticket => {
+        ticket.promocode = 'PREVENTA-MIFEL'
+      });
+    }
     this.boleto.holdToken = this.holdToken;
     this.boleto.evento = this.idEvento;
     this.boleto.plan = 1;
@@ -451,15 +502,15 @@ export class PagoBoleto implements OnInit {
       this.boleto.comision = this.desgloseComision.comision;
     }
     this.boleto.tickets = this.tickets;
-    this.boleto.pais = this.pagoForm.value.country;
-    this.boleto.estado = this.pagoForm.value.state;
-    this.boleto.ciudad = this.pagoForm.value.city;
+    this.boleto.pais = this.pagoForm.value.pais;
+    this.boleto.estado = this.pagoForm.value.estado;
+    this.boleto.ciudad = this.pagoForm.value.ciudad;
     this.boleto.descriptionEvento = this.saleEvent.name;
     this.boleto.address1 = formObject.address.line1;
     this.boleto.address2 = formObject.address.line2;
     this.boleto.formObject = formObject;
     this.boleto.deviceDataId = this.deviceDataId;
-    this.boleto.nombre_titular = this.pagoForm.value.holderName;
+    this.boleto.nombre_titular = this.pagoForm.value.nombreTitular;
     this.boleto.email_titular = this.pagoForm.value.email;
     this.boleto.telefono = this.pagoForm.value.telefono;
     this.boleto.telefono_titular = this.pagoForm.value.telefono;
@@ -470,26 +521,27 @@ export class PagoBoleto implements OnInit {
     this.boleto.enclosure_name = this.saleEvent.enclosure_name;
     this.boleto.fechaCompra = this.fechaCompra;
     this.boleto.checkDireccion = this.checkDireccion;
-    this.boleto.codigoPostal = this.pagoForm.value.postalCode;
+    this.boleto.codigoPostal = this.pagoForm.value.codigoPostal;
     this.boleto.vendedor = this.pagoForm.value.vendedor;
     //return;
     this.boleto.user_id = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '0';
-
+    this.boletoSeleccionado = this.boleto;
+    this.isTerminosModalVisible = true;
   }
   pagarConBancomer() {
     if (this.pagoForm.valid) {
       let address1 = {
-        city: this.city,
+        city: this.pagoForm.value.ciudad,
         line3: '.',
-        postal_code: this.pagoForm.value.postalCode,
-        line1: this.pagoForm.value.street,
-        line2: this.pagoForm.value.numberHome,
-        state: this.pagoForm.value.state,
+        postal_code: this.pagoForm.value.codigoPostal,
+        line1: this.pagoForm.value.calle,
+        line2: this.pagoForm.value.numer,
+        state: this.pagoForm.value.estado,
         country_code: this.pagoForm.value.country,
       }
-      let country = this.listCountries.filter((x: { id: any; }) => x.id == this.pagoForm.value.country)[0];
-      this.boleto.pais = country ? country.name : null;
-      let state = this.listStates.filter((x: { id: any; }) => x.id == this.pagoForm.value.state)[0];
+      //let country = this.listCountries.filter((x: { id: any; }) => x.id == this.pagoForm.value.country)[0];
+      //this.boleto.pais = country ? country.name : null;
+     // let state = this.listStates.filter((x: { id: any; }) => x.id == this.pagoForm.value.state)[0];
       this.boleto.holdToken = this.holdToken;
       this.boleto.evento = this.idEvento;
       this.boleto.plan = 1;
@@ -500,12 +552,12 @@ export class PagoBoleto implements OnInit {
       this.boleto.tickets = this.tickets;
       this.boleto.address1 = address1.line1;
       this.boleto.address2 = address1.line2;
-      this.boleto.pais = this.pagoForm.value.country;
-      this.boleto.estado = this.pagoForm.value.state;
-      this.boleto.ciudad = this.pagoForm.value.city;
+      this.boleto.pais = this.pagoForm.value.pais;
+      this.boleto.estado = this.pagoForm.value.estado;
+      this.boleto.ciudad = this.pagoForm.value.ciudad;
       this.boleto.descriptionEvento = this.saleEvent.name;
       this.boleto.deviceDataId = this.deviceDataId;
-      this.boleto.nombre_titular = this.pagoForm.value.holderName;
+      this.boleto.nombre_titular = this.pagoForm.value.nombreTitular;
       this.boleto.email_titular = this.pagoForm.value.email;
       this.boleto.telefono = this.pagoForm.value.telefono;
       this.boleto.telefono_titular = this.pagoForm.value.telefono;
@@ -517,20 +569,11 @@ export class PagoBoleto implements OnInit {
       this.boleto.fechaCompra = this.fechaCompra;
       this.boleto.user_id = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '0';
       this.boleto.vendedor = this.pagoForm.value.vendedor;
-
-      // const modalOptions: ModalOptions = {
-      //   initialState: { contentHtml: this.boleto },
-      //   class: 'modal-lg', backdrop: 'static', keyboard: false,
-      // }
-      // this.loaderService.hideLoader();
-
-      // this.ngxModalRef = this.ngxModalService.show(TerminosPayComponent, modalOptions);
-      // this.ngxModalRef.onHidden.subscribe((response) => {
-
-      // });
+      this.boletoSeleccionado = this.boleto;
+      this.isTerminosModalVisible = true;
     } else {
       //this.loaderService.hideLoader();
-      if (this.pagoForm.value.holderName == undefined || this.pagoForm.value.holderName == '') {
+      if (this.pagoForm.value.nombreTitular == undefined || this.pagoForm.value.nombreTitular == '') {
         const el = document.getElementById('holderNameBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -571,7 +614,7 @@ export class PagoBoleto implements OnInit {
         }
         this.validateEmail = false;
       }
-      if (this.pagoForm.value.street == undefined || this.pagoForm.value.street == '') {
+      if (this.pagoForm.value.calle == undefined || this.pagoForm.value.calle == '') {
         const el = document.getElementById('streetBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -585,7 +628,7 @@ export class PagoBoleto implements OnInit {
         }
         this.validateStreet = false;
       }
-      if (this.pagoForm.value.numberHome == undefined || this.pagoForm.value.numberHome == '') {
+      if (this.pagoForm.value.numero == undefined || this.pagoForm.value.numero == '') {
         const el = document.getElementById('numberHomeBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -599,7 +642,7 @@ export class PagoBoleto implements OnInit {
         }
         this.validateNumberHome = false;
       }
-      if (this.pagoForm.value.postalCode == undefined || this.pagoForm.value.postalCode == '') {
+      if (this.pagoForm.value.codigoPostal == undefined || this.pagoForm.value.codigoPostal == '') {
         const el = document.getElementById('postalCodeBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -614,7 +657,7 @@ export class PagoBoleto implements OnInit {
         this.validatePostalCode = false;
 
       }
-      if (this.pagoForm.value.country == undefined || this.pagoForm.value.country == '') {
+      if (this.pagoForm.value.pais == undefined || this.pagoForm.value.pais == '') {
         const el = document.getElementById('countryBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -629,7 +672,7 @@ export class PagoBoleto implements OnInit {
         this.validateCountry = false;
 
       }
-      if (this.pagoForm.value.state == undefined || this.pagoForm.value.state == '') {
+      if (this.pagoForm.value.estado == undefined || this.pagoForm.value.estado == '') {
         const el = document.getElementById('stateBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -644,7 +687,7 @@ export class PagoBoleto implements OnInit {
         this.validateState = true;
 
       }
-      if (this.pagoForm.value.city == undefined || this.pagoForm.value.city == '') {
+      if (this.pagoForm.value.ciudad == undefined || this.pagoForm.value.ciudad == '') {
         const el = document.getElementById('cityBancomer');
         if (el) {
           el.classList.add('input-error');
@@ -665,9 +708,9 @@ export class PagoBoleto implements OnInit {
       //this.loaderService.showLoader();
 
       this.tickets.forEach(element => {
-        element.subtotalOxxo = parseInt(element.subtotal) + element.comision;
+        element.subtotalOxxo = element.subtotal + element.comision;
       });
-      this.boleto.holdToken = this.holdToken;
+      this.boleto.holdToken = this.pagoForm.value.nombreTitular;
       this.boleto.evento = this.idEvento;
       this.boleto.plan = 1;
       this.boleto.subtotal = this.subtotal;
@@ -681,7 +724,7 @@ export class PagoBoleto implements OnInit {
       this.boleto.descriptionEvento = this.saleEvent.name;
       // this.boleto.formObject = formObject;
       this.boleto.deviceDataId = this.deviceDataId;
-      this.boleto.nombre_titular = this.pagoForm.value.holderName;
+      this.boleto.nombre_titular = this.pagoForm.value.nombreTitular;
       this.boleto.email_titular = this.pagoForm.value.email;
       this.boleto.telefono = this.pagoForm.value.telefono;
       this.boleto.telefono_titular = this.pagoForm.value.telefono;
@@ -692,8 +735,8 @@ export class PagoBoleto implements OnInit {
       this.boleto.enclosure_name = this.saleEvent.enclosure_name;
       this.boleto.fechaCompra = this.fechaCompra;
       this.boleto.checkDireccion = this.checkDireccion;
-      this.boleto.codigoPostal = this.pagoForm.value.postalCode;
-      //this.boleto.idUser = this.me.id;
+      this.boleto.codigoPostal = this.pagoForm.value.codigoPostal;
+      this.boleto.idUser = this.me?.id;
       this.boleto.forma_pago = 'Efectivo';
       this.boleto.vendedor = this.pagoForm.value.vendedor;
 
@@ -719,7 +762,7 @@ export class PagoBoleto implements OnInit {
         const bodyApi = {
           order_template: {
             customer_info: {
-              name: this.pagoForm.value.holderName,
+              name: this.pagoForm.value.nombreTitular,
               email: this.pagoForm.value.email,
               phone: this.pagoForm.value.telefono,
               corporate: true,
@@ -763,7 +806,7 @@ export class PagoBoleto implements OnInit {
               'expires_at': unixTimestamp
             }
             localStorage.setItem("saleData", JSON.stringify(jsonThank));
-            this.router.navigate(['/boletos/venta/thankyoupage'], {
+            this.router.navigate(['resumenCompra'], {
               queryParams: { data: JSON.stringify(this.boleto.ordenId) },
               state: { from: '/' }
             });

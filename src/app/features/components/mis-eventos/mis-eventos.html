@@ -1,34 +1,60 @@
 <div class="mis-compras-container">
   <h2 class="titulo-seccion">Mis Compras</h2>
 
-  <!-- Ejemplo de una compra (esto se puede iterar con @for) -->
-  <div class="compra-card">
+  <div
+    class="compra-card"
+    *ngFor="let compra of eventUpcomming"
+  >
     <div class="card-imagen">
-      <!-- La imagen debería ser dinámica -->
-      <img src="https://via.placeholder.com/150x100" alt="Imagen del evento" />
+      <img
+        [src]="compra.event?.image_event_online"
+        alt="Imagen del evento"
+      />
     </div>
-    <div class="card-info">
-      <p class="numero-orden"><strong>Orden: #12345</strong></p>
-      <p class="fecha-evento">Sábado 25 de Diciembre, 2025</p>
-      <p class="lugar-evento">Foro Chiapas, Tuxtla Gutiérrez</p>
-    </div>
-    <div class="card-accion">
-      <button class="descargar-btn">Descargar Boletos</button>
-    </div>
-  </div>
 
-  <!-- Otro ejemplo de compra -->
-  <div class="compra-card">
-    <div class="card-imagen">
-      <img src="https://via.placeholder.com/150x100" alt="Imagen del evento" />
-    </div>
     <div class="card-info">
-      <p class="numero-orden"><strong>Orden: #67890</strong></p>
-      <p class="fecha-evento">Viernes 31 de Diciembre, 2025</p>
-      <p class="lugar-evento">Palenque de la Feria, Comitán</p>
+      <p class="numero-orden">
+        <strong>Orden: #{{ compra.id }}</strong>
+      </p>
+
+      <p class="fecha-evento">
+        {{ compra.event?.event_date }}
+        {{ compra.event?.event_time }}
+      </p>
+
+      <p class="lugar-evento">
+        {{ compra.event?.enclosure?.name }}
+      </p>
     </div>
+
     <div class="card-accion">
-      <button class="descargar-btn">Descargar Boletos</button>
+      <button
+        class="descargar-btn"
+        (click)="openInfo(compra.id, compra)"
+      >
+        Descargar Boletos
+      </button>
     </div>
   </div>
 </div>
+
+
+<!-- VERIFICATION MODAL -->
+<div class="modal-backdrop-custom" *ngIf="showVerificationModal"></div>
+
+<div class="modal-wrapper" *ngIf="showVerificationModal">
+  <app-verification-code
+    [email]="user.email"
+    [google]="true"
+    [dataLogin]="dataLogin"
+    (verified)="onVerified()"
+    (closed)="showVerificationModal = false"
+  />
+</div>
+
+<!-- INFO EVENTO MODAL -->
+<app-info-evento
+  *ngIf="showInfoModal()"
+  [data]="infoEventoData()"
+  (closed)="closeInfoModal()"
+/>

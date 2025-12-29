@@ -1,0 +1,123 @@
+<div class="modal-overlay" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="position-relative">
+            <div class="col-xl-12 text-center">
+                <img [src]="data.data.event.image_event_online" alt="" class="img-fluid" />
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12 content-card">
+
+                    <div class="alert alert-warning" *ngIf="!validate">
+                        *La opción de descargar boletos se habilitará el día del evento
+                    </div>
+
+                    <h6 class="orden">Orden: {{ data.data.id }}</h6>
+                    <h6>{{ data.data.event.name }}</h6>
+
+                    <label>
+                        {{ data.data.event.event_date }}
+                        {{ data.data.event.event_time }}
+                    </label>
+
+                    <label>{{ data.data.event.enclosure.name }}</label>
+
+                    <h4 class="text-infoCompra mt-3">Asientos seleccionados</h4>
+
+                    <div class="overflow-x-auto flex justify-center">
+                        <table class="min-w-[320px] max-w-3xl w-full border-separate border-spacing-y-3">
+                            <tbody>
+                                <tr *ngFor="let z of dataTickets()" class="bg-white rounded-xl shadow-sm">
+                                    <!-- Zona / Sección -->
+                                    <td class="px-4 py-3 text-center align-middle rounded-l-xl">
+                                        <h5 class="text-sm font-semibold text-gray-800">
+                                            {{ z.ticket_zone }}
+                                        </h5>
+                                        <h5 class="text-xs text-gray-500">
+                                            {{ z.ticket_section }}
+                                        </h5>
+                                    </td>
+
+                                    <!-- Precio -->
+                                    <td class="px-4 py-3 text-center align-middle">
+                                        <h3 class="text-lg font-bold text-blue-600">
+                                            {{ z.ticket_price + z.ticket_comision | currency:'MXN' }}
+                                        </h3>
+                                    </td>
+
+                                    <!-- Acción -->
+                                    <td class="px-4 py-3 text-center align-middle rounded-r-xl">
+                                        <a [href]="z.urlDownload" target="_blank"
+                                            [class.pointer-events-none]="!validate" [class.opacity-50]="!validate"
+                                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white
+                   bg-gradient-to-r from-blue-600 to-blue-700
+                   rounded-full shadow-md transition-all
+                   hover:from-blue-700 hover:to-blue-800
+                   hover:-translate-y-0.5">
+                                            ⬇ Descargar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <hr class="division-precio">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h3 class="total-text">Comisión</h3>
+                        </div>
+                        <div class="col-6 text-end">
+                            <p class="total">{{ data.data.comision }} MXN</p>
+                        </div>
+
+                        <div class="col-6">
+                            <h3 class="total-text">Total de compra</h3>
+                        </div>
+                        <div class="col-6 text-end">
+                            <p class="total">{{ data.data.total }} MXN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descargas móviles -->
+            <div class="row" *ngIf="downloadLinks.length > 0">
+                <div class="alert alert-warning mt-3">
+                    *Si está en móvil y no se descargaron automáticamente, use los siguientes enlaces
+                </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let item of downloadLinks()">
+                        <a [href]="item.url" [download]="item.filename" target="_blank">
+                            {{ item.filename }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-3">
+                <!-- Botón cerrar -->
+                <button (click)="close()" class="w-full py-3 rounded-xl font-semibold text-gray-700
+           bg-gray-100 border border-gray-300
+           transition-all duration-200
+           hover:bg-gray-200 hover:text-gray-900
+           active:scale-95">
+                    Cerrar
+                </button>
+
+                <!-- Alerta info -->
+                <div class="px-4 py-3 rounded-xl text-sm text-blue-800
+           bg-blue-50 border border-blue-200">
+                    *Configure en su navegador: Permitir ventanas emergentes
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
