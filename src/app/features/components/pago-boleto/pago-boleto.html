@@ -107,6 +107,8 @@
               }
             </div>
           </div>
+          }
+          
           <div class="form-row">
             <div class="form-group" style="flex: 3;">
               <label for="calle">Calle</label>
@@ -155,8 +157,6 @@
               }
             </div>
           </div>
-          }
-
           <button type="submit" class="pagar-btn-form" [disabled]="pagoForm.invalid">
             Pagar boletos
           </button>
@@ -175,8 +175,6 @@
 
 
 <!-- Modal de Términos y Condiciones -->
-<app-terminos-pay-modal
-  [visible]="isTerminosModalVisible"
-  [boleto]="boletoSeleccionado"
+<app-terminos-pay-modal [visible]="isTerminosModalVisible" [boleto]="boletoSeleccionado"
   (close)="isTerminosModalVisible = false">
 </app-terminos-pay-modal>

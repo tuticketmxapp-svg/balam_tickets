@@ -18,6 +18,7 @@ import { CardValidationDirective } from '../../directives/cardValidation.directi
 import { PhoneNumberDirective } from '../../directives/phoneNumber.directives';
 import { LocalStorageService } from '../../services/UserDataService.service';
 moment.locale('es');
+declare var OpenPay: any;
 
 type MetodoPagoConfig = {
   cbase: number;
@@ -205,6 +206,20 @@ export class PagoBoleto implements OnInit {
     state: any;
     country: any; country_id: any;
   } | undefined;
+  private camposTarjeta = [
+    'numeroTarjeta',
+    'mesExp',
+    'anoExp',
+    'cvv',
+  ];
+  private camposDireccion = [
+    'calle',
+    'numero',
+    'codigoPostal',
+    'ciudad',
+    'estado',
+    'pais',
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -535,13 +550,13 @@ export class PagoBoleto implements OnInit {
         line3: '.',
         postal_code: this.pagoForm.value.codigoPostal,
         line1: this.pagoForm.value.calle,
-        line2: this.pagoForm.value.numer,
+        line2: this.pagoForm.value.numero,
         state: this.pagoForm.value.estado,
         country_code: this.pagoForm.value.country,
       }
       //let country = this.listCountries.filter((x: { id: any; }) => x.id == this.pagoForm.value.country)[0];
       //this.boleto.pais = country ? country.name : null;
-     // let state = this.listStates.filter((x: { id: any; }) => x.id == this.pagoForm.value.state)[0];
+      // let state = this.listStates.filter((x: { id: any; }) => x.id == this.pagoForm.value.state)[0];
       this.boleto.holdToken = this.holdToken;
       this.boleto.evento = this.idEvento;
       this.boleto.plan = 1;
@@ -905,54 +920,47 @@ export class PagoBoleto implements OnInit {
 
     if (metodo === 'Visa') {
       this.activarValidacionTarjeta();
+      this.activarValidacionDireccion();
     } else {
       this.desactivarValidacionTarjeta();
+      this.activarValidacionDireccion();
     }
-    if (this.selectedOption === option.value) {
-      this.selectedOption = '';
-    } else {
-      this.selectedOption = option.value;
-    }
+
+    this.selectedOption =
+      this.selectedOption === metodo ? '' : metodo;
+
     this.addComisionConIVA(this.pasarela, 1, this.subtotal);
   }
-  activarValidacionTarjeta() {
-    const camposTarjeta = [
-      'numeroTarjeta',
-      'mesExp',
-      'anoExp',
-      'cvv',
-      'calle',
-      'numero',
-      'codigoPostal',
-      'ciudad',
-      'estado',
-      'pais',
-    ];
 
-    camposTarjeta.forEach((campo) => {
+  activarValidacionTarjeta() {
+    this.camposTarjeta.forEach((campo) => {
       const control = this.pagoForm.get(campo);
       control?.setValidators([Validators.required]);
       control?.updateValueAndValidity();
     });
   }
-  desactivarValidacionTarjeta() {
-    const camposTarjeta = [
-      'numeroTarjeta',
-      'mesExp',
-      'anoExp',
-      'cvv',
-      'calle',
-      'numero',
-      'codigoPostal',
-      'ciudad',
-      'estado',
-      'pais',
-    ];
 
-    camposTarjeta.forEach((campo) => {
+  desactivarValidacionTarjeta() {
+    this.camposTarjeta.forEach((campo) => {
       const control = this.pagoForm.get(campo);
       control?.clearValidators();
       control?.setValue('');
+      control?.updateValueAndValidity();
+    });
+  }
+  activarValidacionDireccion() {
+    this.camposDireccion.forEach((campo) => {
+      console.log('campo',campo)
+      const control = this.pagoForm.get(campo);
+      control?.setValidators([Validators.required]);
+      control?.updateValueAndValidity();
+    });
+  }
+
+  desactivarValidacionDireccion() {
+    this.camposDireccion.forEach((campo) => {
+      const control = this.pagoForm.get(campo);
+      control?.clearValidators();
       control?.updateValueAndValidity();
     });
   }
